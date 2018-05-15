@@ -3,6 +3,13 @@
 This website is made for a personal tutor. 
 Can be used to organise the lessons of each month and generate a monthly report.
 
+## HTTP Server setup
+
+Set the URL to be used for the app in `application/config/config.php`
+```php
+$config['base_url'] = 'http://yourserver:<port>';
+```
+
 ## Database setup
 
 The full MySQL script is `tutorHelper.sql`. It needs an existing database, the name doesn't matter.
