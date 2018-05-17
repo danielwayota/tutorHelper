@@ -11,6 +11,7 @@
          */
         public function get_all_pages()
         {
+            $this->db->order_by('Position', 'ASC');
             $query = $this->db->get('Pages');
 
             return $query->result_array();
@@ -23,6 +24,7 @@
          */
         public function get_single_page($id = 0)
         {
+            $this->db->order_by('Position', 'ASC');
             $this->db->limit(1);
 
             if ($id !== 0)

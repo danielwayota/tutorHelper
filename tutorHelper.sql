@@ -77,7 +77,8 @@ DROP TABLE IF EXISTS `Pages`;
 CREATE TABLE `Pages` (
   `IdPage` int(11) NOT NULL,
   `Title` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
-  `Content` text COLLATE utf8_spanish_ci NOT NULL
+  `Content` text COLLATE utf8_spanish_ci NOT NULL,
+  `Position` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 DROP TABLE IF EXISTS `Users`;
@@ -131,7 +132,7 @@ ALTER TABLE `Hours`
   MODIFY `IdHour` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 ALTER TABLE `Pages`
-  MODIFY `IdPage` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdPage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `Users`
   MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
