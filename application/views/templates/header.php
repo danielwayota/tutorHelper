@@ -13,5 +13,5 @@
 
     <title>Tutor helper</title>
 </head>
-<body>
+<body class="indigo lighten-5">
     

@@ -2,7 +2,7 @@
     class Pages extends TH_Controller
     {
         /**
-         * Just calls the view function with default parameters
+         * Just calls the view function with default parameters.
          */
         public function index()
         {
@@ -11,11 +11,14 @@
         
         /**
          * Renders the default page or a selected one.
-         * @param: id - The page id in the database
+         * @param: id - The page id in the database.
          */
         public function view($id = 0)
         {
+            // Get the requested page.
             $page = $this->page_model->get_single_page($id);
+
+            // If there is no page, generate an advice.
             if ($page === NULL) {
                 $page = array(
                     'IdPage' => 0,
