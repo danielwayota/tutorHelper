@@ -36,4 +36,15 @@
 
             return $query->row_array();
         }
+
+        /**
+         * Deletes some page
+         * @param: id
+         */
+        public function delete_page($id)
+        {
+            $this->db->where('IdPage', $id);
+
+            return $this->db->delete('Pages');
+        }
     }

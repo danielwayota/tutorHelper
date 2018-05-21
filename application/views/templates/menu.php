@@ -1,3 +1,36 @@
+<?php
+    // Admin menu composition
+    $template = array(
+        array(
+            'name' => 'Páginas',
+            'requireSuperUser' => true,
+            'url' => base_url() . 'index.php/pages/list'
+        )
+    );
+    $admin_menu_items = array();
+    if ($this->session->userdata('logged_in'))
+    {
+        foreach($template as $item)
+        {
+            $insert = true;
+            if ($item['requireSuperUser'])
+            {
+
+                if (!$this->session->userdata('IsSuperAdmin'))
+                {
+                    $insert = false;
+                }
+
+            }
+            if ($insert)
+            {
+                array_push($admin_menu_items, $item);
+            }
+        }
+    }
+
+?>
+
 <nav class="nav-extended indigo darken-4">
     <div class="nav-wrapper">
         <a href="<?php echo base_url(); ?>" class="brand-logo">
@@ -33,6 +66,7 @@
 
             <?php endforeach; ?>
             <li>
+            <!-- Login/Logout buttons -->
             <?php if ($this->session->userdata('logged_in')) : ?>
                 <a class="btn indigo darken-6"
                     href="<?php echo base_url() ?>index.php/users/logout">
@@ -48,6 +82,19 @@
         </ul>
         <!-- === END MAIN MENU === -->
     </div>
+
+    <!-- ADMIN MENU -->
+    <?php if (!empty($admin_menu_items)) : ?>
+    <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+            <?php foreach ($admin_menu_items as $item) : ?>
+            <li class="tab">
+                <a href="<?= $item['url'] ?>"><?= $item['name'] ?></a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endif; ?>
 </nav>
 
 <!-- === MOBILE MENU === -->
@@ -65,8 +112,20 @@
     </li>
 
     <?php endforeach; ?>
+
+    <!-- ADMIN MENU -->
+    <?php if (!empty($admin_menu_items)) : ?>
+    <li><div class="divider"></div></li>
+    <?php foreach ($admin_menu_items as $item) : ?>
+    <li class="tab">
+        <a href="<?= $item['url'] ?>"><?= $item['name'] ?></a>
+    </li>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
     <li><div class="divider"></div></li>
     <li>
+    <!-- Login/Logout buttons -->
     <?php if ($this->session->userdata('logged_in')) : ?>
         <a href="<?php echo base_url() ?>index.php/users/logout">
             <i class="material-icons">person_outline</i>Salir

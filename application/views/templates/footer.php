@@ -6,5 +6,17 @@
 <script>
 </script>
 
+<script>
+    let html = `<?php echo $this->session->flashdata('notification') ?>`;
+    let color = `<?php echo $this->session->flashdata('notification_color') ?>` || 'green';
+
+    if (html) {
+        setTimeout(() => {
+            M.toast({html: html, classes: color, displayLength: 4000})
+        }, 250);
+    }
+    
+</script>
+
 </body>
 </html>

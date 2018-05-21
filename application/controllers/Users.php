@@ -30,28 +30,49 @@
                     'password' => md5($this->input->post('password'))
                 );
                 
+                // Try to match the credentials with some user.
                 $user_data = $this->user_model->login($user_credentials);
 
-
+                // Check the login status
                 if (!empty($user_data))
                 {
-                    $session = array(
-                        'IdUser' => $user_data['IdUser'],
-                        'username' => explode('@', $user_data['Email'])[0],
-                        'logged_in' => true
-                    );
-                    
-                    $this->session->set_userdata($session);
-                    // $this->session->set_flashdata('notification', '');
-                    redirect('');
+                    if ($user_data['Enabled'])
+                    {
+                        // Stores the user data
+                        $session = array(
+                            'IdUser' => $user_data['IdUser'],
+                            'username' => explode('@', $user_data['Email'])[0],
+                            'IsSuperAdmin' => $user_data['IsSuperAdmin'],
+                            'logged_in' => true
+                        );
+                        
+                        $this->session->set_userdata($session);
+                        $this->session->set_flashdata('notification', 'Sessión iniciada.');
+                        redirect('');
+                    }
+                    else
+                    {
+                        $this->load_login_with_error('Este usuario está desactivado');
+                    }
                 }
                 else
                 {
-                    $this->load_header_and_menu();
-                    $this->load->view('users/login.php');
-                    $this->load_footer();
+                    $this->load_login_with_error('Credenciales inválidos.');
                 }
             }
+        }
+
+        /**
+         * Renders the login page and send an error.
+         */
+        public function load_login_with_error($error)
+        {
+            $this->session->set_flashdata('notification', $error);
+            $this->session->set_flashdata('notification_color', 'deep-orange lighten-1');
+
+            $this->load_header_and_menu();
+            $this->load->view('users/login.php');
+            $this->load_footer();
         }
 
         /**
@@ -62,9 +83,10 @@
             // Unset user data
             $this->session->unset_userdata('IdUser');
             $this->session->unset_userdata('username');
+            $this->session->unset_userdata('IsSuperAdmin');
             $this->session->unset_userdata('logged_in');
 
-            $this->session->set_flashdata('notification', 'Loged out');
-            redirect('');
+            $this->session->set_flashdata('notification', 'Sessión cerrada.');
+            redirect('users/login');
         }
     }

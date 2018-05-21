@@ -36,4 +36,55 @@
             $this->load->view('pages/single.php', $data);
             $this->load_footer();
         }
+
+        // =================================
+        // Administrator stuff
+        // =================================
+
+        /**
+         * Renders the pages management page.
+         */
+        public function list()
+        {
+            $this->check_user_session();
+
+            $this->load_header_and_menu();
+
+            $data['pages'] = $this->pages;
+            $this->load->view('pages/admin_list.php', $data);
+
+            $this->load_footer();
+        }
+
+        /**
+         * Renders the page edit page.
+         */
+        public function edit($id)
+        {
+            $this->check_user_session();
+
+            $this->load_header_and_menu();
+
+            $this->load_footer();
+        }
+
+        /**
+         * Removes a single page.
+         */
+        public function delete($id)
+        {
+            $this->check_user_session();
+
+            $status = $this->page_model->delete_page($id);
+            if ($status)
+            {
+                $this->session->set_flashdata('notification', 'Página borrada.');
+            }
+            else
+            {
+                $this->session->set_flashdata('notification', 'No se pudo borrar');
+            }
+
+            redirect('pages/list');
+        }
     }

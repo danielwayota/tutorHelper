@@ -19,4 +19,16 @@
 
             return $query->row_array();
         }
+
+        /**
+         * Retrieves a user from the database;
+         * @return: User data
+         */
+        public function get_user($user_id)
+        {
+            $this->db->where('IdUser', $user_id);
+            $query = $this->db->get('Users');
+
+            return $query->row_array();
+        }
     }
