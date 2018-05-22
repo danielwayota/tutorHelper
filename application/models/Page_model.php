@@ -38,6 +38,21 @@
         }
 
         /**
+         * Creates one page.
+         */
+        public function create_page($page_data)
+        {
+            return $this->db->insert('Pages', $page_data);
+        }
+
+        public function update_page($id, $page_data)
+        {
+            $this->db->where('IdPage', $id);
+
+            return $this->db->update('Pages', $page_data);
+        }
+
+        /**
          * Deletes some page
          * @param: id
          */

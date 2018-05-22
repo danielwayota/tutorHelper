@@ -15,6 +15,14 @@
             M.toast({html: html, classes: color, displayLength: 4000})
         }, 250);
     }
+
+    <?php
+        // Clears the Fash data because is repeating the message for some reason.
+        if ($this->session->flashdata('notification'))
+        {
+            $this->session->set_flashdata('notification', NULL);
+        }
+    ?>
     
 </script>
 

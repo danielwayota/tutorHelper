@@ -20,11 +20,18 @@
 
             // If there is no page, generate an advice.
             if ($page === NULL) {
-                $page = array(
-                    'IdPage' => 0,
-                    'Title' => '',
-                    'Content' => '<h5 class="center-align"> - No hay páginas creadas - </h5>'
-                );
+                if ($id !== 0)
+                {
+                    redirect('');
+                }
+                else
+                {
+                    $page = array(
+                        'IdPage' => 0,
+                        'Title' => '',
+                        'Content' => '<h5 class="center-align"> - No hay páginas creadas - </h5>'
+                    );
+                }
             }
 
             $this->load_header_and_menu(array(
@@ -57,14 +64,80 @@
         }
 
         /**
+         * Render the creation page.
+         */
+        public function create()
+        {
+            $this->check_user_session();
+
+            // Validation rules
+            $this->form_validation->set_rules('title', 'Título', 'required',
+                array('required' => 'Al menos un título es requerido.')
+            );
+
+            if ($this->form_validation->run() === FALSE)
+            {
+                $this->load_header_and_menu();
+                $this->load->view('pages/admin_create.php');
+                $this->load_footer();
+            }
+            else
+            {
+                $page_data = array(
+                    'Title' => $this->input->post('title'),
+                    'Content' => $this->input->post('content'),
+                    'Position' => $this->input->post('position')
+                );
+
+                $this->page_model->create_page($page_data);
+
+                $this->session->set_flashdata('notification', 'Página '.$page_data['Title'].' creada');
+                redirect('pages/list');
+            }
+        }
+
+        /**
          * Renders the page edit page.
          */
         public function edit($id)
         {
             $this->check_user_session();
 
-            $this->load_header_and_menu();
+            // Validation rules
+            $this->form_validation->set_rules('title', 'Título', 'required',
+                array('required' => 'Al menos un título es requerido.')
+            );
 
+            if ($this->form_validation->run() === FALSE)
+            {
+                // ???
+            }
+            else
+            {
+                $page_data = array(
+                    'Title' => $this->input->post('title'),
+                    'Position' => $this->input->post('position'),
+                    'Content' => $this->input->post('content')
+                );
+
+                $this->page_model->update_page($id, $page_data);
+
+                $this->session->set_flashdata('notification', 'Cambios aplicados.');
+            }
+
+            // Load the page data.
+            $page = $this->page_model->get_single_page($id);
+
+            if (empty($page))
+            {
+                $this->session->set_flashdata('notification', 'Página no encontrada.');
+                redirect('pages/list');
+            }
+
+            $data['page'] = $page;
+
+            $this->load_header_and_menu();
+            $this->load->view('pages/admin_edit.php', $data);
             $this->load_footer();
         }
 
