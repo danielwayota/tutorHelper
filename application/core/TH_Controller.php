@@ -38,12 +38,25 @@
         }
 
         /**
+         * Clears the session data
+         */
+        public function clear_user_data()
+        {
+            // Unset user data
+            $this->session->unset_userdata('IdUser');
+            $this->session->unset_userdata('username');
+            $this->session->unset_userdata('IsSuperAdmin');
+            $this->session->unset_userdata('logged_in');
+        }
+
+        /**
          * Check user session.
          *   If there is none, redirect to login page.
          */
         public function check_user_session()
         {
             $valid = true;
+            $user_data = NULL;
 
             // Check session data.
             if (!$this->session->userdata('logged_in'))
@@ -65,8 +78,30 @@
 
             if (!$valid)
             {
-                $this->session->set_flashdata('notification', 'No tienes permisos para acceder o tu usuario ha sido desactivadoPáginas.');
-                redirect('index.php/users/login');
+                $this->session->set_flashdata('notification', 'No tienes permisos para acceder o tu usuario ha sido desactivado.');
+                $this->clear_user_data();
+                redirect('users/login');
+            }
+
+            return $user_data;
+        }
+
+        /**
+         * Checks if the current session is a SuperAdmin user.
+         *   If is not, redirect to login page.
+         */
+        public function check_superuser_session()
+        {
+            $user = $this->check_user_session();
+
+            if ($user !== NULL)
+            {
+                if (!$user['IsSuperAdmin'])
+                {
+                    $this->session->set_flashdata('notification', 'No tienes permisos para acceder o tu usuario ha sido desactivado.');
+                    $this->clear_user_data();
+                    redirect('users/login');
+                }
             }
         }
     }

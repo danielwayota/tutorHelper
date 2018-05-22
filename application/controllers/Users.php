@@ -80,11 +80,7 @@
          */
         public function logout()
         {
-            // Unset user data
-            $this->session->unset_userdata('IdUser');
-            $this->session->unset_userdata('username');
-            $this->session->unset_userdata('IsSuperAdmin');
-            $this->session->unset_userdata('logged_in');
+            $this->clear_user_data();
 
             $this->session->set_flashdata('notification', 'Sessión cerrada.');
             redirect('users/login');

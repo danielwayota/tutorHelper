@@ -53,7 +53,7 @@
          */
         public function list()
         {
-            $this->check_user_session();
+            $this->check_superuser_session();
 
             $this->load_header_and_menu();
 
@@ -68,7 +68,7 @@
          */
         public function create()
         {
-            $this->check_user_session();
+            $this->check_superuser_session();
 
             // Validation rules
             $this->form_validation->set_rules('title', 'Título', 'required',
@@ -101,7 +101,7 @@
          */
         public function edit($id)
         {
-            $this->check_user_session();
+            $this->check_superuser_session();
 
             // Validation rules
             $this->form_validation->set_rules('title', 'Título', 'required',
@@ -146,7 +146,7 @@
          */
         public function delete($id)
         {
-            $this->check_user_session();
+            $this->check_superuser_session();
 
             $status = $this->page_model->delete_page($id);
             if ($status)
