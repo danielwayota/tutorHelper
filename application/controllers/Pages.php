@@ -53,7 +53,7 @@
          */
         public function list()
         {
-            $this->check_superuser_session();
+            $this->check_superadmin_session();
 
             $this->load_header_and_menu();
 
@@ -68,7 +68,7 @@
          */
         public function create()
         {
-            $this->check_superuser_session();
+            $this->check_superadmin_session();
 
             // Validation rules
             $this->form_validation->set_rules('title', 'Título', 'required',
@@ -101,7 +101,7 @@
          */
         public function edit($id)
         {
-            $this->check_superuser_session();
+            $this->check_superadmin_session();
 
             // Validation rules
             $this->form_validation->set_rules('title', 'Título', 'required',
@@ -131,6 +131,7 @@
             if (empty($page))
             {
                 $this->session->set_flashdata('notification', 'Página no encontrada.');
+                $this->session->set_flashdata('notification_color', 'red');
                 redirect('pages/list');
             }
 
@@ -146,7 +147,7 @@
          */
         public function delete($id)
         {
-            $this->check_superuser_session();
+            $this->check_superadmin_session();
 
             $status = $this->page_model->delete_page($id);
             if ($status)

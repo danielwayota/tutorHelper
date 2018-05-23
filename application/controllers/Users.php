@@ -85,4 +85,202 @@
             $this->session->set_flashdata('notification', 'Sessión cerrada.');
             redirect('users/login');
         }
+
+        // =================================
+        // Administrator stuff
+        // =================================
+
+        public function list()
+        {
+            $this->check_superadmin_session();
+
+            $users = $this->user_model->get_regular_users();
+
+            $data['users'] = $users;
+
+            $this->load_header_and_menu();
+            $this->load->view('users/admin_list.php', $data);
+            $this->load_footer();
+        }
+
+        /**
+         * User creation page
+         */
+        public function create()
+        {
+            $this->check_superadmin_session();
+
+            // Validation stuff
+            $this->form_validation->set_rules('name', 'Name', 'required');
+            $this->form_validation->set_rules(
+                'email',
+                'Email',
+                'required|valid_email|callback_check_email_exists',
+                array(
+                    'required' => 'El Email es requerido.',
+                    'valid_email' => 'No es una dirección de Email válida',
+                    'check_email_exists' => 'Email en uso.'
+                )
+            );
+            $this->form_validation->set_rules('password', 'Password', 'required',
+                array('required' => 'La contraseña es requerida.')
+            );
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'matches[password]',
+                array('matches' => 'Las contraseñas no coinciden')
+            );
+
+            // Load sended data if there is any.
+            $user_data = array(
+                'Name' => $this->input->post('name'),
+                'Email' => $this->input->post('email'),
+                'Comments' => $this->input->post('comments')
+            );
+
+            $data['user'] = $user_data;
+
+            // Do stuff
+            if ($this->form_validation->run() == FALSE)
+            {
+                $this->load_header_and_menu();
+                $this->load->view('users/admin_create.php', $data);
+                $this->load_footer();
+            }
+            else
+            {
+                $user_data = array(
+                    'Name' => $this->input->post('name'),
+                    'Email' => $this->input->post('email'),
+                    'Password' => md5($this->input->post('password'))
+                );
+
+                $extra_data = array(
+                    'Comments' => $this->input->post('comments'),
+                    'PriceOverride' => 0
+                );
+
+                if ($this->input->post('use-custom-price'))
+                {
+                    $extra_data['PriceOverride'] = $this->input->post('custom-price');
+                }
+
+                $this->user_model->create_regular_user($user_data, $extra_data);
+
+                // Feedback message
+                $this->session->set_flashdata('notification', 'Usuario '.$user_data['Name'].' creado');
+                redirect('users/list');
+            }
+        }
+
+        /** 
+         * Renders the user edit page.
+         */
+        public function edit($id)
+        {
+            $this->check_superadmin_session();
+
+            // Validation stuff
+            $this->form_validation->set_rules('name', 'Name', 'required');
+
+            if (
+                $this->input->post('password') !== '' ||
+                $this->input->post('password2') !== ''
+                )
+            {
+                $this->form_validation->set_rules('password', 'Password', 'required');
+                $this->form_validation->set_rules('password2', 'Confirm Password', 'matches[password]',
+                    array('matches' => 'Las contraseñas no coinciden')
+                );
+            }
+
+            // Do stuff
+            if ($this->form_validation->run() == FALSE)
+            {
+                // Load the actual user data.
+                $user_data = $this->user_model->get_user_with_data($id);
+    
+                if (empty($user_data))
+                {
+                    $this->session->set_flashdata('notification', 'Usuario no encontrado.');
+                    $this->session->set_flashdata('notification_color', 'red');
+                    redirect('users/list');
+                }
+    
+                $data['user'] = $user_data;
+            }
+            else
+            {
+                // User base data
+                $user_data = array(
+                    'Name' => $this->input->post('name')
+                );
+                
+                // The password is not required
+                $password = $this->input->post('password');
+                if ($password !== '')
+                {
+                    $user_data['Password'] = md5($password);
+                }
+                
+                // Extra data
+                $extra_data = array(
+                    'Comments' => $this->input->post('comments'),
+                    'PriceOverride' => 0
+                );
+
+                if ($this->input->post('use-custom-price'))
+                {
+                    $extra_data['PriceOverride'] = $this->input->post('custom-price');
+                }
+
+                $this->user_model->update_regular_user($id, $user_data, $extra_data);
+
+                
+                $this->session->set_flashdata('notification', 'Usuario guardado.');
+                $data['user'] = $this->user_model->get_user_with_data($id);
+            }
+
+            $this->load_header_and_menu();
+            $this->load->view('users/admin_edit.php', $data);
+            $this->load_footer();
+        }
+
+        /**
+         * Removes a single page.
+         */
+        public function delete($id)
+        {
+            $this->check_superadmin_session();
+
+            $status = $this->user_model->delete_user($id);
+            if ($status)
+            {
+                $this->session->set_flashdata('notification', 'Usuario borrado.');
+            }
+            else
+            {
+                $this->session->set_flashdata('notification', 'No se pudo borrar');
+                $this->session->set_flashdata('notification_color', 'red');
+            }
+
+            redirect('users/list');
+        }
+
+        // =========================================
+        // Private functions
+        // =========================================
+
+        /**
+         * Check if email exists
+         */
+        function check_email_exists($email)
+        {
+            if ($this->user_model->check_email_exists($email))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }

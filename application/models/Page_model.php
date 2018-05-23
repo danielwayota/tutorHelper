@@ -45,6 +45,9 @@
             return $this->db->insert('Pages', $page_data);
         }
 
+        /**
+         * Updates the info of a page
+         */
         public function update_page($id, $page_data)
         {
             $this->db->where('IdPage', $id);

@@ -33,8 +33,7 @@
 
                         <button
                             data-target="modal<?= $page['IdPage'] ?>"
-                            class="btn red modal-trigger"
-                            type="submit">
+                            class="btn red modal-trigger">
                             Borrar
                         </button>
                     </td>

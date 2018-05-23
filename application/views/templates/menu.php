@@ -5,6 +5,11 @@
             'name' => 'Páginas',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/pages/list'
+        ),
+        array(
+            'name' => 'Usuarios',
+            'requireSuperUser' => true,
+            'url' => base_url() . 'index.php/users/list'
         )
     );
     $admin_menu_items = array();

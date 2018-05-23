@@ -90,7 +90,7 @@
          * Checks if the current session is a SuperAdmin user.
          *   If is not, redirect to login page.
          */
-        public function check_superuser_session()
+        public function check_superadmin_session()
         {
             $user = $this->check_user_session();
 
