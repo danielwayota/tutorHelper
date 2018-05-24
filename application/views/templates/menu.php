@@ -90,7 +90,7 @@
 
     <!-- ADMIN MENU -->
     <?php if (!empty($admin_menu_items)) : ?>
-    <div class="nav-content">
+    <div class="nav-content hide-on-med-and-down">
         <ul class="tabs tabs-transparent">
             <?php foreach ($admin_menu_items as $item) : ?>
             <li class="tab">

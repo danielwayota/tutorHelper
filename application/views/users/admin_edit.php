@@ -10,9 +10,21 @@
 
         <?php echo form_open($url_base . '/edit' . '/' . $user['IdUser']) ?>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s12 m6">
                 <input type="text" id="email" disabled value="<?= $user['Email'] ?>"  />
                 <label for="email">Email</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <div class="switch">
+                    <label>
+                    Desactivado<input type="checkbox" name="enabled" <?php
+                        if ($user['Enabled']) { echo "checked"; }
+                    ?>>
+                    <span class="lever"></span>
+                    Activado
+                    </label>
+                </div>
             </div>
 
             <div class="input-field col s12">

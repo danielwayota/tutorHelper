@@ -211,7 +211,8 @@
             {
                 // User base data
                 $user_data = array(
-                    'Name' => $this->input->post('name')
+                    'Name' => $this->input->post('name'),
+                    'Enabled' => $this->input->post('enabled') ? 1 : 0
                 );
                 
                 // The password is not required
