@@ -10,6 +10,11 @@
             'name' => 'Usuarios',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/users/list'
+        ),
+        array(
+            'name' => 'Calendario',
+            'requireSuperUser' => true,
+            'url' => base_url() . 'index.php/calendar/month'
         )
     );
     $admin_menu_items = array();
