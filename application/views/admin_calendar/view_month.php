@@ -1,17 +1,29 @@
 <div class="container">
-    <div class="row">
+    <table class="centered">
 
+    <thead>
+        <tr>
+            <th>L</th><th>M</th><th>X</th><th>J</th>
+            <th>V</th><th>S</th><th>D</th>
+        </tr>
+    </thead>
+
+    <tbody>
     <?php
+        $table_body_html = '';
         $number_days = count($month);
         $starting_day = $month[0];
 
+        
         // First week filler.
         $i = 0;
-
+        
         $start_week_day = (new DateTime($starting_day['DayDate']))->format('N') - 1;
 
+        $table_body_html .= '<tr>';
+
         while ($i < $start_week_day) :
-            ?><div class="col s2"></div><?php
+            $table_body_html .= '<td></td>';
             $i++;
         endwhile;
 
@@ -25,24 +37,17 @@
 
             $day_index = $day_date->format('N');
 
-            if ($day_index < 6) :
-                ?><div class="col s2"><?= $day_date->format('d'); ?></div><?php
+            $table_body_html .= '<td>' . $day_date->format('d') . '</td>';
 
-                $i++;
-            else :
-                ?><div class="col s1"><?=
-                    $day_date->format('d');
-                ?></div><?php
-                    if ($i + 1 < $number_days) :
-                        $sunday = $month[$i + 1];
-                        ?><div class="col s1"><?=
-                            date('d', strtotime($sunday['DayDate']));
-                        ?></div><?php
-                    endif;
-
-                $i += 2;
+            if ($day_index == 7) :
+                $table_body_html .= '</tr><tr>';
             endif;
+
+            $i++;
         endwhile;
+
+        echo $table_body_html;
     ?>
-    </div>
+    </tbody>
+    </table>
 </div>
