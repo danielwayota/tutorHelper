@@ -1,4 +1,7 @@
 <?php
+    /**
+     * Administrator Calendar
+     */
     class Calendar extends TH_Controller
     {
         /**

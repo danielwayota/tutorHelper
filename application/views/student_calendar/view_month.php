@@ -2,7 +2,7 @@
 
     <div class="card">
         <div class="card-content">
-            <h3>Calendario Profesor</h3>
+            <h3>Calendario Estudiante</h3>
 
             <table class="centered calendar">
 
@@ -43,7 +43,7 @@
                     $day_index = $day_date->format('N');
 
                     $day_number = $day_date->format('d');
-                    $day_url = base_url() . 'index.php/admin/calendar/day/' . $day_number;
+                    $day_url = base_url() . 'index.php/student/calendar/day/' . $day_number;
 
                     $day_color = '';
 
@@ -51,11 +51,14 @@
                     // - Locked: Red
                     // - Past day: green
                     // - Today: Blue BG
+                    $add_link = TRUE;
                     if ($day['Locked']) :
                         $day_color = 'red-text';
+                        $add_link = FALSE;
                     else:
-                        if ($day_number < $today->format('d')):
+                        if ($day_number <= $today->format('d')):
                             $day_color = 'grey-text';
+                            $add_link = FALSE;
                         endif;
                     endif;
 
@@ -65,9 +68,15 @@
 
                     // Day 'button'
                     ?><td><?php
-                        ?><a class="<?= $day_color ?>" href="<?= $day_url ?>"><?=
-                            $day_number
-                        ?></a><?php
+                        if ($add_link):
+                            ?><a class="<?= $day_color ?>" href="<?= $day_url ?>"><?=
+                                $day_number
+                            ?></a><?php
+                        else:
+                            ?><span class="<?= $day_color ?>"><?=
+                                $day_number
+                            ?></span><?php
+                        endif;
                     ?></td><?php
 
                     if ($day_index == 7) :

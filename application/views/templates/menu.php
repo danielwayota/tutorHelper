@@ -12,9 +12,14 @@
             'url' => base_url() . 'index.php/users/list'
         ),
         array(
-            'name' => 'Calendario',
+            'name' => 'Calendario profesor',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/admin/calendar/month'
+        ),
+        array(
+            'name' => 'Calendario',
+            'requireSuperUser' => false,
+            'url' => base_url() . 'index.php/student/calendar/month'
         )
     );
     $admin_menu_items = array();
