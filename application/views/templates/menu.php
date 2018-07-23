@@ -14,7 +14,7 @@
         array(
             'name' => 'Calendario',
             'requireSuperUser' => true,
-            'url' => base_url() . 'index.php/calendar/month'
+            'url' => base_url() . 'index.php/admin/calendar/month'
         )
     );
     $admin_menu_items = array();

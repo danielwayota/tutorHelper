@@ -1,53 +1,84 @@
 <div class="container">
-    <table class="centered">
 
-    <thead>
-        <tr>
-            <th>L</th><th>M</th><th>X</th><th>J</th>
-            <th>V</th><th>S</th><th>D</th>
-        </tr>
-    </thead>
+    <div class="card">
+        <div class="card-content">
+            <h3>Calendario</h3>
 
-    <tbody>
-    <?php
-        $table_body_html = '';
-        $number_days = count($month);
-        $starting_day = $month[0];
+            <table class="centered calendar">
 
-        
-        // First week filler.
-        $i = 0;
-        
-        $start_week_day = (new DateTime($starting_day['DayDate']))->format('N') - 1;
+            <thead>
+                <tr>
+                    <th>L</th><th>M</th><th>X</th><th>J</th>
+                    <th>V</th><th>S</th><th>D</th>
+                </tr>
+            </thead>
 
-        $table_body_html .= '<tr>';
+            <tbody>
+            <?php
+                $number_days = count($month);
+                $starting_day = $month[0];
 
-        while ($i < $start_week_day) :
-            $table_body_html .= '<td></td>';
-            $i++;
-        endwhile;
+                
+                // First week filler.
+                $i = 0;
+                
+                $start_week_day = (new DateTime($starting_day['DayDate']))->format('N') - 1;
 
-        // Month renderer.
+                ?><tr><?php
 
-        $i = 0;
+                while ($i < $start_week_day) :
+                    ?><td></td><?php
+                    $i++;
+                endwhile;
 
-        while($i < $number_days) :
-            $day = $month[$i];
-            $day_date = new DateTime($day['DayDate']);
+                // Month renderer.
 
-            $day_index = $day_date->format('N');
+                $i = 0;
 
-            $table_body_html .= '<td>' . $day_date->format('d') . '</td>';
+                while($i < $number_days) :
+                    $day = $month[$i];
+                    $day_date = new DateTime($day['DayDate']);
+                    $today = new DateTime();
 
-            if ($day_index == 7) :
-                $table_body_html .= '</tr><tr>';
-            endif;
+                    $day_index = $day_date->format('N');
 
-            $i++;
-        endwhile;
+                    $day_number = $day_date->format('d');
+                    $day_url = base_url() . 'index.php/admin/calendar/day/' . $day_number;
 
-        echo $table_body_html;
-    ?>
-    </tbody>
-    </table>
+                    $day_color = '';
+
+                    // Select the day's color.
+                    // - Locked: Red
+                    // - Past day: green
+                    // - Today: Blue BG
+                    if ($day['Locked']) :
+                        $day_color = 'red-text';
+                    else:
+                        if ($day_number < $today->format('d')):
+                            $day_color = 'green-text';
+                        endif;
+                    endif;
+
+                    if ($day_number == $today->format('d')):
+                        $day_color .= ' blue lighten-4';
+                    endif;
+
+                    // Day 'button'
+                    ?><td><?php
+                        ?><a class="<?= $day_color ?>" href="<?= $day_url ?>"><?=
+                            $day_number
+                        ?></a><?php
+                    ?></td><?php
+
+                    if ($day_index == 7) :
+                        ?></tr><tr><?php
+                    endif;
+
+                    $i++;
+                endwhile;
+            ?>
+            </tbody>
+            </table>
+        </div>
+    </div>
 </div>

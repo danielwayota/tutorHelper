@@ -11,6 +11,8 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/custom.css">
+
     <title>Tutor helper</title>
 </head>
 <body class="indigo lighten-5">

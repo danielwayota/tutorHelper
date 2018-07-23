@@ -102,6 +102,19 @@ CREATE TABLE `UsersData` (
   `PriceOverride` float NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `DaysUsers`
+--
+
+DROP TABLE IF EXISTS `DaysUsers`;
+CREATE TABLE `DaysUsers` (
+  `IdDay` int(11) NOT NULL,
+  `IdUser` int(11) NOT NULL,
+  `IdHour` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 
 ALTER TABLE `ConfigSchedules`
   ADD PRIMARY KEY (`IdConfigSchedule`);

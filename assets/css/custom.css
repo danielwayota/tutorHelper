@@ -1,0 +1,11 @@
+.calendar td {
+    padding: 0;
+}
+.calendar td a, .calendar td span {
+    display: block;
+    width: 100%;
+    padding: 12px;
+}
+.calendar td a:hover {
+    background-color: #efefef;
+}

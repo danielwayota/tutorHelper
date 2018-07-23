@@ -67,6 +67,31 @@ class Calendar_model extends CI_Model
             return $query->result_array();
         }
     }
+
+    /**
+     * Get the given day of the current month
+     */
+    public function get_day($day)
+    {
+        $now = time();
+        $month = date('m', $now);
+
+        $this->db->where('MONTH(DayDate)', $month);
+        $this->db->where('DAY(DayDate)', $day);
+        $query = $this->db->get('Days');
+
+        return $query->row_array();
+    }
+
+    /**
+     * Modify day configuration
+     */
+    public function modify_day($id_day, $config)
+    {
+        $this->db->where('IdDay', $id_day);
+
+        return $this->db->update('Days', $config);
+    }
 }
 
 ?>
