@@ -21,6 +21,7 @@
         if ($this->session->flashdata('notification'))
         {
             $this->session->set_flashdata('notification', NULL);
+            $this->session->set_flashdata('notification_color', NULL);
         }
     ?>
     

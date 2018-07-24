@@ -7,6 +7,17 @@
         {
             parent::__construct();
         }
+
+        public function show_notification($message, $type = 'success')
+        {
+            $this->session->set_flashdata('notification', $message);
+            $color = '';
+            if ($type == 'error')
+            {
+                $color = 'deep-orange lighten-1';
+            }
+            $this->session->set_flashdata('notification_color', $color);
+        }
         /**
          * Loads the header and footer templates. It's just to write less code.
          * 
@@ -16,7 +27,6 @@
          *      'selected_page_id':
          * }
          */
-
         public function load_header_and_menu($config = array())
         {
             $this->pages = $this->page_model->get_all_pages();

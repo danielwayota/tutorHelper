@@ -54,12 +54,6 @@ CREATE TABLE `Days` (
   `Locked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-DROP TABLE IF EXISTS `DaysHours`;
-CREATE TABLE `DaysHours` (
-  `IdDay` int(11) NOT NULL,
-  `IdHour` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
 DROP TABLE IF EXISTS `Hours`;
 CREATE TABLE `Hours` (
   `IdHour` int(11) NOT NULL,
@@ -108,10 +102,10 @@ CREATE TABLE `UsersData` (
 -- Estructura de tabla para la tabla `DaysUsers`
 --
 
-DROP TABLE IF EXISTS `DaysUsers`;
-CREATE TABLE `DaysUsers` (
+DROP TABLE IF EXISTS `DaysUsersHours`;
+CREATE TABLE `DaysUsersHours` (
   `IdDay` int(11) NOT NULL,
-  `IdUser` int(11) NOT NULL,
+  `IdUser` int(11) DEFAULT NULL,
   `IdHour` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

@@ -52,15 +52,14 @@
                     // Reload the day data
                     $day_data = $this->calendar_model->get_day($day);
 
-                    $this->session->set_flashdata('notification', 'Día modificado.');
+                    $this->show_notification('Día modificado.');
                 }
             }
             
             $this->load_header_and_menu();
             if ($day === 0)
             {
-                $this->session->set_flashdata('notification', 'No hay día especificado.');
-                $this->session->set_flashdata('notification_color', 'deep-orange lighten-1');
+                $this->show_notification('No hay día especificado.', 'error');
             }
             else
             {

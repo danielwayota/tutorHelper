@@ -91,7 +91,7 @@
 
                 $this->page_model->create_page($page_data);
 
-                $this->session->set_flashdata('notification', 'Página '.$page_data['Title'].' creada');
+                $this->show_notification('Página '.$page_data['Title'].' creada');
                 redirect('pages/list');
             }
         }
@@ -122,7 +122,7 @@
 
                 $this->page_model->update_page($id, $page_data);
 
-                $this->session->set_flashdata('notification', 'Cambios aplicados.');
+                $this->show_notification('Cambios aplicados.');
             }
 
             // Load the page data.
@@ -130,8 +130,7 @@
 
             if (empty($page))
             {
-                $this->session->set_flashdata('notification', 'Página no encontrada.');
-                $this->session->set_flashdata('notification_color', 'red');
+                $this->show_notification('Página no encontrada.', 'error');
                 redirect('pages/list');
             }
 
@@ -152,11 +151,11 @@
             $status = $this->page_model->delete_page($id);
             if ($status)
             {
-                $this->session->set_flashdata('notification', 'Página borrada.');
+                $this->show_notification('Página borrada.');
             }
             else
             {
-                $this->session->set_flashdata('notification', 'No se pudo borrar');
+                $this->show_notification('No se pudo borrar');
             }
 
             redirect('pages/list');

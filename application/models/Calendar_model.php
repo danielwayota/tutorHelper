@@ -92,6 +92,94 @@ class Calendar_model extends CI_Model
 
         return $this->db->update('Days', $config);
     }
+
+    /**
+     * Get the Schedule of the day
+     */
+    public function get_day_schedule($day_data)
+    {
+        $id_day = $day_data['IdDay'];
+
+        $this->db->where('IdDay', $id_day);
+        $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
+        $query = $this->db->get('DaysUsersHours');
+
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+        else
+        {
+            $day_date = new DateTime($day_data['DayDate']);
+            $week_day = $day_date->format('N');
+
+            if ($week_day != 5)
+            {
+                // Not friday
+                $this->db->where('IdConfigSchedule', 1);
+            }
+            else
+            {
+                // Friday
+                $this->db->where('IdConfigSchedule', 2);
+            }
+            // $this->db->join('Hours', 'ConfigSchedulesHours.IdHour = Hours.IdHour');
+            $query = $this->db->get('ConfigSchedulesHours');
+            $hours_ids = $query->result_array();
+
+            $data_to_insert = array();
+
+            foreach ($hours_ids as $hour_id)
+            {
+                $tmp = array(
+                    'IdDay' => $id_day,
+                    'IdUser' => NULL,
+                    'IdHour' => $hour_id['IdHour']
+                );
+
+                array_push($data_to_insert, $tmp);
+            }
+
+            $this->db->insert_batch('DaysUsersHours', $data_to_insert);
+
+            $this->db->where('IdDay', $id_day);
+            $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
+            $query = $this->db->get('DaysUsersHours');
+
+            return $query->result_array();
+        }
+    }
+
+    /**
+     * Inserts the current user in some hour, some day.
+     * If the user is already in that day, just move to the next hour.
+     */
+    public function add_user_to_schedule($id_day, $id_user, $id_hour)
+    {
+        $this->db->where('IdDay', $id_day);
+        $this->db->where('IdHour', $id_hour);
+        $query = $this->db->get('DaysUsersHours');
+        $data = $query->row_array();
+
+        // Check if there is already someone there
+        if ($data['IdUser'] == NULL)
+        {
+            $this->db->set('IdUser', NULL);
+            $this->db->where('IdDay', $id_day);
+            $this->db->where('IdUser', $id_user);
+            $this->db->update('DaysUsersHours');
+    
+            $this->db->set('IdUser', $id_user);
+            $this->db->where('IdDay', $id_day);
+            $this->db->where('IdHour', $id_hour);
+            $this->db->update('DaysUsersHours');
+
+            return TRUE;
+        }
+
+        return FALSE;
+
+    }
 }
 
 ?>

@@ -47,7 +47,7 @@
                         );
                         
                         $this->session->set_userdata($session);
-                        $this->session->set_flashdata('notification', 'Sessión iniciada.');
+                        $this->show_notification('Sessión iniciada.');
                         redirect('');
                     }
                     else
@@ -67,8 +67,7 @@
          */
         public function load_login_with_error($error)
         {
-            $this->session->set_flashdata('notification', $error);
-            $this->session->set_flashdata('notification_color', 'deep-orange lighten-1');
+            $this->show_notification($error, 'error');
 
             $this->load_header_and_menu();
             $this->load->view('users/login.php');
@@ -82,7 +81,7 @@
         {
             $this->clear_user_data();
 
-            $this->session->set_flashdata('notification', 'Sessión cerrada.');
+            $this->show_notification('Sessión cerrada.');
             redirect('users/login');
         }
 
@@ -166,7 +165,7 @@
                 $this->user_model->create_regular_user($user_data, $extra_data);
 
                 // Feedback message
-                $this->session->set_flashdata('notification', 'Usuario '.$user_data['Name'].' creado');
+                $this->show_notification('Usuario '.$user_data['Name'].' creado');
                 redirect('users/list');
             }
         }
@@ -200,8 +199,7 @@
     
                 if (empty($user_data))
                 {
-                    $this->session->set_flashdata('notification', 'Usuario no encontrado.');
-                    $this->session->set_flashdata('notification_color', 'red');
+                    $this->show_notification('Usuario no encontrado.', 'error');
                     redirect('users/list');
                 }
     
@@ -236,7 +234,7 @@
                 $this->user_model->update_regular_user($id, $user_data, $extra_data);
 
                 
-                $this->session->set_flashdata('notification', 'Usuario guardado.');
+                $this->show_notification('Usuario guardado.');
                 $data['user'] = $this->user_model->get_user_with_data($id);
             }
 
@@ -255,12 +253,11 @@
             $status = $this->user_model->delete_user($id);
             if ($status)
             {
-                $this->session->set_flashdata('notification', 'Usuario borrado.');
+                $this->show_notification('Usuario borrado.');
             }
             else
             {
-                $this->session->set_flashdata('notification', 'No se pudo borrar');
-                $this->session->set_flashdata('notification_color', 'red');
+                $this->show_notification('No se pudo borrar', 'error');
             }
 
             redirect('users/list');
