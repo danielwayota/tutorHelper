@@ -36,15 +36,8 @@
                 {
                     // Generate the config to be saved
                     $day_config = array(
-                        'MaxPeopleOverride' => 0,
                         'Locked' => $this->input->post('locked') ? 1 : 0
                     );
-
-                    // Check the people override
-                    if ($this->input->post('use-max-people-override'))
-                    {
-                        $day_config['MaxPeopleOverride'] = $this->input->post('max-people-override');
-                    }
 
                     // Do the update
                     $this->calendar_model->modify_day($day_data['IdDay'], $day_config);

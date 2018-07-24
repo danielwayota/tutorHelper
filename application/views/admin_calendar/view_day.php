@@ -11,26 +11,6 @@
 
         <div class="row">
         <?php echo form_open($url_base . $day_number) ?>
-            
-            <p><strong>Límite personalizado</strong></p>
-            
-            <div class="input-field col s12 m4 l2">
-                <div class="switch">
-                    <label>
-                        No<input type="checkbox" name="use-max-people-override" <?php
-                            if ($day['MaxPeopleOverride']) {echo "checked";}
-                        ?>>
-                        <span class="lever"></span>
-                        Sí
-                    </label>
-                </div>
-            </div>
-            
-            <div class="input-field col s12 m8 l10">
-                <input type="number" min="0" value="<?= $day['MaxPeopleOverride'] ?>" name="max-people-override" id="max-people-override" />
-                <label for="max-people-override">Límite de gente</label>
-            </div>
-
             <p><strong>Bloqueado</strong></p>
             
             <div class="input-field col s12 m4 l2">

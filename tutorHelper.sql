@@ -11,12 +11,10 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `Config`;
 CREATE TABLE `Config` (
-  `BasePrice` float NOT NULL,
-  `MaxPeoplePerDay` int(11) NOT NULL
+  `BasePrice` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-INSERT INTO `Config` (`BasePrice`, `MaxPeoplePerDay`) VALUES
-(10, 8);
+INSERT INTO `Config` (`BasePrice`) VALUES (10);
 
 DROP TABLE IF EXISTS `ConfigSchedules`;
 CREATE TABLE `ConfigSchedules` (
@@ -50,7 +48,6 @@ DROP TABLE IF EXISTS `Days`;
 CREATE TABLE `Days` (
   `IdDay` int(11) NOT NULL,
   `DayDate` date NOT NULL,
-  `MaxPeopleOverride` int(11) NOT NULL DEFAULT '0',
   `Locked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
