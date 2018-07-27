@@ -11,24 +11,42 @@
 
         <h4>Horas disponibles</h4>
 
-        <div class="row">
+        <div class="mt-1">Click en una hora para anotarte o cambiar de hora.</div>
+
+        <div class="mb-1">La hora en <span class="green-text">verde</span> es en la que estás anotado.</div>
+
+        <div>
             <?php
                 echo form_open($url_base . $day_number);
-                foreach ($hours as $hour)
-                {
+
+                $is_user_in_this_day = FALSE;
+
+                ?><div class="row"><?php
+
+                foreach ($hours as $hour) :
                     $style = 'btn';
 
                     if ($hour['IdUser'] != NULL)
                     {
-                        $style .= ' disabled';
+                        if ($hour['IdUser'] == $IdUser) {
+                            $style .= ' green';
+                            $is_user_in_this_day = TRUE;
+                        } else {
+                            $style .= ' disabled';
+                        }
                     }
 
                     ?><div class="col s1">
                     <button class="<?= $style ?>" type="submit" name="id-hour" value="<?=$hour['IdHour']?>"><?=
                         $hour['HourString']
                     ?></button></div><?php
-                }
-            ?></form>
+
+                endforeach; ?></div><?php
+
+                if ($is_user_in_this_day): ?>
+                    <button class="btn red" type="submit" name="remove-me" value="me">Bórrame</button>
+                <?php endif; ?>
+            </form>
         </div>
     </div>
 </div>

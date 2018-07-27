@@ -94,6 +94,45 @@ class Calendar_model extends CI_Model
     }
 
     /**
+     * Creates the schedule for a given day acording to the default config.
+     */
+    public function create_default_day_schedule($day_data)
+    {
+        $day_date = new DateTime($day_data['DayDate']);
+        $week_day = $day_date->format('N');
+        $id_day = $day_data['IdDay'];
+
+        if ($week_day != 5)
+        {
+            // Not friday
+            $this->db->where('IdConfigSchedule', 1);
+        }
+        else
+        {
+            // Friday
+            $this->db->where('IdConfigSchedule', 2);
+        }
+        // $this->db->join('Hours', 'ConfigSchedulesHours.IdHour = Hours.IdHour');
+        $query = $this->db->get('ConfigSchedulesHours');
+        $hours_ids = $query->result_array();
+
+        $data_to_insert = array();
+
+        foreach ($hours_ids as $hour_id)
+        {
+            $tmp = array(
+                'IdDay' => $id_day,
+                'IdUser' => NULL,
+                'IdHour' => $hour_id['IdHour']
+            );
+
+            array_push($data_to_insert, $tmp);
+        }
+
+        $this->db->insert_batch('DaysUsersHours', $data_to_insert);
+    }
+
+    /**
      * Get the Schedule of the day
      */
     public function get_day_schedule($day_data)
@@ -110,40 +149,41 @@ class Calendar_model extends CI_Model
         }
         else
         {
-            $day_date = new DateTime($day_data['DayDate']);
-            $week_day = $day_date->format('N');
-
-            if ($week_day != 5)
-            {
-                // Not friday
-                $this->db->where('IdConfigSchedule', 1);
-            }
-            else
-            {
-                // Friday
-                $this->db->where('IdConfigSchedule', 2);
-            }
-            // $this->db->join('Hours', 'ConfigSchedulesHours.IdHour = Hours.IdHour');
-            $query = $this->db->get('ConfigSchedulesHours');
-            $hours_ids = $query->result_array();
-
-            $data_to_insert = array();
-
-            foreach ($hours_ids as $hour_id)
-            {
-                $tmp = array(
-                    'IdDay' => $id_day,
-                    'IdUser' => NULL,
-                    'IdHour' => $hour_id['IdHour']
-                );
-
-                array_push($data_to_insert, $tmp);
-            }
-
-            $this->db->insert_batch('DaysUsersHours', $data_to_insert);
+            $this->create_default_day_schedule($day_data);
 
             $this->db->where('IdDay', $id_day);
             $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
+            $query = $this->db->get('DaysUsersHours');
+
+            return $query->result_array();
+        }
+    }
+
+    /**
+     * Get the Schedule for some day and the users associated
+     */
+    public function get_day_schedule_with_users($day_data)
+    {
+        $id_day = $day_data['IdDay'];
+
+        $this->db->where('IdDay', $id_day);
+        $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
+        $this->db->join('Users', 'DaysUsersHours.IdUser = Users.IdUser', 'left');
+        $this->db->order_by('Hours.IdHour');
+        $query = $this->db->get('DaysUsersHours');
+
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+        else
+        {
+            $this->create_default_day_schedule($day_data);
+
+            $this->db->where('IdDay', $id_day);
+            $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
+            $this->db->join('Users', 'DaysUsersHours.IdUser = Users.IdUser', 'left');
+            $this->db->order_by('Hours.IdHour');
             $query = $this->db->get('DaysUsersHours');
 
             return $query->result_array();
@@ -178,7 +218,25 @@ class Calendar_model extends CI_Model
         }
 
         return FALSE;
+    }
 
+    /**
+     * Deletes a user form some hour, some day.
+     */
+    public function remove_user_from_schedule($id_day, $id_user)
+    {
+        $this->db->set('IdUser', NULL);
+        $this->db->where('IdDay', $id_day);
+        $this->db->where('IdUser', $id_user);
+        $this->db->update('DaysUsersHours');
+    }
+
+    /**
+     * Retrieves the list of users from some day
+     */
+    public function get_user_of_day($id_day)
+    {
+        
     }
 }
 

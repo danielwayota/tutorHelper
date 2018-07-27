@@ -10,6 +10,34 @@
         <h3>Día <?= $day_date->format('d-m-Y') ?></h3>
 
         <div class="row">
+            <h4>Lista de alumnos del día</h4>
+
+            <table>
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Alumno</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <?php foreach($schedule as $hour) : ?>
+            <tr>
+                <td><?= $hour['HourString'] ?></td>
+                <td>
+                    <?php if ($hour['IdUser']) : ?>
+                        <strong><?= $hour['Name'] ?></strong>
+                    <?php else : ?>...<?php endif; ?>
+                </td>
+                <td>
+                    <button class="btn orange">Quitar Alumno</button>
+                    <button class="btn red">Quitar Hora</button>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+            </table>
+        </div>
+
+        <div class="row">
         <?php echo form_open($url_base . $day_number) ?>
             <p><strong>Bloqueado</strong></p>
             

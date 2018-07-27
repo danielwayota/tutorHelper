@@ -57,6 +57,8 @@
             else
             {
                 $data['day'] = $day_data;
+
+                $data['schedule'] = $this->calendar_model->get_day_schedule_with_users($day_data);
     
                 $this->load->view('admin_calendar/view_day', $data);
             }

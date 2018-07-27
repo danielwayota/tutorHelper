@@ -43,6 +43,16 @@
             }
             else
             {
+                if ($this->input->post('remove-me') != NULL)
+                {
+                    $id_user = $data['IdUser'];
+                    $id_day = $day_data['IdDay'];
+                    $id_hour = $this->input->post('id-hour');
+
+                    $this->calendar_model->remove_user_from_schedule($id_day, $id_user);
+                    $this->show_notification('Borrado.');
+                }
+
                 if ($this->input->post('id-hour') != NULL)
                 {
                     $id_user = $data['IdUser'];
