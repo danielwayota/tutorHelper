@@ -38,7 +38,7 @@
                 'selected_page_id' => $page['IdPage']
             ));
 
-            $data['page'] = $page;
+            $data['PAGE'] = $page;
     
             $this->load->view('pages/single.php', $data);
             $this->load_footer();
@@ -57,7 +57,7 @@
 
             $this->load_header_and_menu();
 
-            $data['pages'] = $this->pages;
+            $data['PAGES'] = $this->pages;
             $this->load->view('pages/admin_list.php', $data);
 
             $this->load_footer();
@@ -134,7 +134,7 @@
                 redirect('pages/list');
             }
 
-            $data['page'] = $page;
+            $data['PAGE'] = $page;
 
             $this->load_header_and_menu();
             $this->load->view('pages/admin_edit.php', $data);

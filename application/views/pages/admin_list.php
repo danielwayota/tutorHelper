@@ -20,19 +20,19 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($pages as $page) : ?>
+            <?php foreach ($PAGES as $PAGE) : ?>
                 <tr>
-                    <td><?= $page['Title'] ?></td>
+                    <td><?= $PAGE['Title'] ?></td>
                     <td>
                         <a
                             class="btn green"
-                            href="<?= $url_base ?>/edit/<?= $page['IdPage'] ?>"
+                            href="<?= $url_base ?>/edit/<?= $PAGE['IdPage'] ?>"
                         >
                             Editar
                         </a>
 
                         <button
-                            data-target="modal<?= $page['IdPage'] ?>"
+                            data-target="modal<?= $PAGE['IdPage'] ?>"
                             class="btn red modal-trigger">
                             Borrar
                         </button>
@@ -45,15 +45,15 @@
     </div>
 
     <!-- Modals Setup -->
-    <?php foreach ($pages as $page) : ?>
+    <?php foreach ($PAGES as $PAGE) : ?>
 
-    <div id="modal<?= $page['IdPage'] ?>" class="modal">
+    <div id="modal<?= $PAGE['IdPage'] ?>" class="modal">
         <div class="modal-content">
-            <h4>Borrar: <?= $page['Title'] ?></h4>
+            <h4>Borrar: <?= $PAGE['Title'] ?></h4>
             <p>Se borrará esta página y no se podrá recuperar.</p>
         </div>
         <div class="modal-footer">
-            <?php echo form_open($url_base.'/delete/'. $page['IdPage'] ); ?>
+            <?php echo form_open($url_base.'/delete/'. $PAGE['IdPage'] ); ?>
                 <button type="reset" class="modal-close btn green">Cancelar</button>
                 <button type="submit" class="modal-close btn red">Borrar</button>
             </form>

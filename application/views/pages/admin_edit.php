@@ -4,21 +4,21 @@
 ?>
 <div class="card">
     <div class="card-content">
-    <?php echo form_open($url_base.'/edit' . '/' . $page['IdPage']) ?>
+    <?php echo form_open($url_base.'/edit' . '/' . $PAGE['IdPage']) ?>
         <h3>Editar página</h3>
         
         <div class="input-field">
-            <input type="text" id="title" name="title" value="<?= $page['Title'] ?>" required />
+            <input type="text" id="title" name="title" value="<?= $PAGE['Title'] ?>" required />
             <label for="title">Título</label>
         </div>
 
         <div class="input-field">
-            <input type="number" id="position" name="position" value="<?= $page['Position'] ?>" value="0" />
+            <input type="number" id="position" name="position" value="<?= $PAGE['Position'] ?>" value="0" />
             <label for="position">Posición</label>
         </div>
 
         <div class="input-field">
-            <textarea  id="content" name="content"><?= $page['Content'] ?></textarea>
+            <textarea  id="content" name="content"><?= $PAGE['Content'] ?></textarea>
         </div>
 
         <div class="input-field">

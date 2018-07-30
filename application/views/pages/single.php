@@ -2,9 +2,9 @@
 
 <div class="card">
     <div class="card-content">
-        <h3><?= $page['Title'] ?></h3>
+        <h3><?= $PAGE['Title'] ?></h3>
         <div>
-        <?= $page['Content'] ?>
+        <?= $PAGE['Content'] ?>
         </div>
     </div>
 </div>

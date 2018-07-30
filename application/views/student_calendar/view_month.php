@@ -43,6 +43,8 @@
                     $day_index = $day_date->format('N');
 
                     $day_number = $day_date->format('d');
+                    $day_month = $day_date->format('m');
+
                     $day_str = $day_date->format('Y-m-d');
                     $day_url = base_url() . 'index.php/student/calendar/day/' . $day_str;
 
@@ -57,13 +59,22 @@
                         $day_color = 'red-text';
                         $add_link = FALSE;
                     else:
-                        if ($day_number <= $today->format('d')):
+                        if ($day_month < $today->format('m')):
                             $day_color = 'grey-text';
                             $add_link = FALSE;
+                        elseif ($day_month == $today->format('m')):
+                            if ($day_number <= $today->format('d')):
+                                $day_color = 'grey-text';
+                                $add_link = FALSE;
+                            endif;
                         endif;
                     endif;
 
-                    if ($day_number == $today->format('d')):
+                    if (
+                        ($day_number == $today->format('d'))
+                        &&
+                        ($day_month == $today->format('m'))
+                        ):
                         $day_color .= ' blue lighten-4';
                     endif;
 

@@ -43,6 +43,8 @@
                     $day_index = $day_date->format('N');
 
                     $day_number = $day_date->format('d');
+                    $day_month = $day_date->format('m');
+
                     $day_str = $day_date->format('Y-m-d');
                     $day_url = base_url() . 'index.php/admin/calendar/day/' . $day_str;
 
@@ -55,12 +57,20 @@
                     if ($day['Locked']) :
                         $day_color = 'red-text';
                     else:
-                        if ($day_number < $today->format('d')):
+                        if ($day_month < $today->format('m')):
                             $day_color = 'grey-text';
+                        elseif ($day_month == $today->format('m')):
+                            if ($day_number <= $today->format('d')):
+                                $day_color = 'grey-text';
+                            endif;
                         endif;
                     endif;
 
-                    if ($day_number == $today->format('d')):
+                    if (
+                        ($day_number == $today->format('d'))
+                        &&
+                        ($day_month == $today->format('m'))
+                        ):
                         $day_color .= ' blue lighten-4';
                     endif;
 
