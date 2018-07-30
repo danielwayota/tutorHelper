@@ -2,8 +2,8 @@
 <?php
     $url_base = base_url() . 'index.php/student/calendar/day/';
 
-    $day_date = new DateTime($day['DayDate']);
-    $day_number = $day_date->format('d');
+    $day_date = new DateTime($DAY['DayDate']);
+    $day_str = $day_date->format('Y-m-d');
 ?>
 <div class="card">
     <div class="card-content">
@@ -17,18 +17,18 @@
 
         <div>
             <?php
-                echo form_open($url_base . $day_number);
+                echo form_open($url_base . $day_str);
 
                 $is_user_in_this_day = FALSE;
 
                 ?><div class="row"><?php
 
-                foreach ($hours as $hour) :
+                foreach ($HOURS as $hour) :
                     $style = 'btn';
 
                     if ($hour['IdUser'] != NULL)
                     {
-                        if ($hour['IdUser'] == $IdUser) {
+                        if ($hour['IdUser'] == $ID_USER) {
                             $style .= ' green';
                             $is_user_in_this_day = TRUE;
                         } else {

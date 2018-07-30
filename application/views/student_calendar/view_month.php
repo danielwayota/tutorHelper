@@ -15,8 +15,8 @@
 
             <tbody>
             <?php
-                $number_days = count($month);
-                $starting_day = $month[0];
+                $number_days = count($MONTH);
+                $starting_day = $MONTH[0];
 
                 
                 // First week filler.
@@ -36,14 +36,15 @@
                 $i = 0;
 
                 while($i < $number_days) :
-                    $day = $month[$i];
+                    $day = $MONTH[$i];
                     $day_date = new DateTime($day['DayDate']);
                     $today = new DateTime();
 
                     $day_index = $day_date->format('N');
 
                     $day_number = $day_date->format('d');
-                    $day_url = base_url() . 'index.php/student/calendar/day/' . $day_number;
+                    $day_str = $day_date->format('Y-m-d');
+                    $day_url = base_url() . 'index.php/student/calendar/day/' . $day_str;
 
                     $day_color = '';
 

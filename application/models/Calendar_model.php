@@ -69,12 +69,43 @@ class Calendar_model extends CI_Model
     }
 
     /**
+     * Retrieves the avaiable schedules to configure some day
+     */
+    public function get_config_schedules()
+    {
+        $query = $this->db->get('ConfigSchedules');
+
+        return $query->result_array();
+    }
+
+    /**
      * Get the given day of the current month
      */
     public function get_day($day)
     {
         $now = time();
         $month = date('m', $now);
+
+        $this->db->where('MONTH(DayDate)', $month);
+        $this->db->where('DAY(DayDate)', $day);
+        $query = $this->db->get('Days');
+
+        return $query->row_array();
+    }
+
+    /**
+     * Get the given day of some month
+     */
+    public function get_day_data_by_date($date_str)
+    {
+        $now = new DateTime();
+        if ($date_str)
+        {
+            $now = new DateTime($date_str);
+        }
+
+        $month = $now->format('m');
+        $day = $now->format('d');
 
         $this->db->where('MONTH(DayDate)', $month);
         $this->db->where('DAY(DayDate)', $day);
@@ -94,23 +125,31 @@ class Calendar_model extends CI_Model
     }
 
     /**
-     * Creates the schedule for a given day acording to the default config.
+     * Creates the schedule for a given day acording to some schedule id.
+     * If the schedule is not given, just use the default config.
      */
-    public function create_default_day_schedule($day_data)
+    public function create_day_schedule($day_data, $schedule = 0)
     {
         $day_date = new DateTime($day_data['DayDate']);
         $week_day = $day_date->format('N');
         $id_day = $day_data['IdDay'];
 
-        if ($week_day != 5)
+        if ($schedule)
         {
-            // Not friday
-            $this->db->where('IdConfigSchedule', 1);
+            $this->db->where('IdConfigSchedule', $schedule);
         }
         else
         {
-            // Friday
-            $this->db->where('IdConfigSchedule', 2);
+            if ($week_day != 5)
+            {
+                // Not friday
+                $this->db->where('IdConfigSchedule', 1);
+            }
+            else
+            {
+                // Friday
+                $this->db->where('IdConfigSchedule', 2);
+            }
         }
         // $this->db->join('Hours', 'ConfigSchedulesHours.IdHour = Hours.IdHour');
         $query = $this->db->get('ConfigSchedulesHours');
@@ -149,7 +188,7 @@ class Calendar_model extends CI_Model
         }
         else
         {
-            $this->create_default_day_schedule($day_data);
+            $this->create_day_schedule($day_data);
 
             $this->db->where('IdDay', $id_day);
             $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
@@ -178,7 +217,7 @@ class Calendar_model extends CI_Model
         }
         else
         {
-            $this->create_default_day_schedule($day_data);
+            $this->create_day_schedule($day_data);
 
             $this->db->where('IdDay', $id_day);
             $this->db->join('Hours', 'DaysUsersHours.IdHour = Hours.IdHour');
@@ -221,6 +260,15 @@ class Calendar_model extends CI_Model
     }
 
     /**
+     * Removes all the hours/users of some day
+     */
+    public function remove_day_schedule($id_day)
+    {
+        $this->db->where('IdDay', $id_day);
+        $this->db->delete('DaysUsersHours');
+    }
+
+    /**
      * Deletes a user form some hour, some day.
      */
     public function remove_user_from_schedule($id_day, $id_user)
@@ -232,11 +280,14 @@ class Calendar_model extends CI_Model
     }
 
     /**
-     * Retrieves the list of users from some day
+     * Deletes some hour of some schedule
      */
-    public function get_user_of_day($id_day)
+    public function remove_hour_from_schedule($id_day, $id_hour)
     {
-        
+        $this->db->where('IdDay', $id_day);
+        $this->db->where('IdHour', $id_hour);
+
+        $this->db->delete('DaysUsersHours');
     }
 }
 
