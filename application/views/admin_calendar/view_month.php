@@ -2,7 +2,17 @@
 
     <div class="card">
         <div class="card-content">
+            <?php
+            
+            $months = [
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
+            $month_str = $months[(new DateTime($MONTH[0]['DayDate']))->format('m') - 1];
+            
+            ?>
             <h3>Calendario Profesor</h3>
+            <h4><?= $month_str ?></h4>
 
             <table class="centered calendar">
 

@@ -7,9 +7,19 @@
         /**
          * Current month view
          */
-        public function month($month_number = 0)
+        public function month($month_offset = NULL)
         {
             $this->check_user_session();
+
+            $month_number = date('m', time());
+            if ($month_offset) :
+                if ($month_offset == 'next') :
+                    $month_number++;
+                else:
+                    redirect('student/calendar/month');
+                endif;
+            endif;
+            
             $this->load_header_and_menu();
 
             $month = $this->calendar_model->get_month($month_number);

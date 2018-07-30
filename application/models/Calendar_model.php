@@ -24,6 +24,12 @@ class Calendar_model extends CI_Model
         }
 
         // Try to get the month data.
+        if ($month > 12)
+        {
+            $month -= 12;
+            $year++;
+        }
+
         $this->db->where('MONTH(DayDate)', $month);
         $query = $this->db->get('Days');
         
