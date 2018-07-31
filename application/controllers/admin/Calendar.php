@@ -7,24 +7,18 @@
         /**
          * Current month view
          */
-        public function month($month_offset = NULL)
+        public function month()
         {
             $this->check_superadmin_session();
+            $this->load_header_and_menu();
             
             $month_number = date('m', time());
-            if ($month_offset) :
-                if ($month_offset == 'next') :
-                    $month_number++;
-                else:
-                    redirect('admin/calendar/month');
-                endif;
-            endif;
-            
-            $this->load_header_and_menu();
-
             $month = $this->calendar_model->get_month($month_number);
+            $month_number++;
+            $next_month = $this->calendar_model->get_month($month_number);
 
             $data['MONTH'] = $month;
+            $data['NEXT_MONTH'] = $next_month;
 
             $this->load->view('admin_calendar/view_month', $data);
 

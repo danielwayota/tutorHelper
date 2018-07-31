@@ -10,21 +10,15 @@
         public function month($month_offset = NULL)
         {
             $this->check_user_session();
-
-            $month_number = date('m', time());
-            if ($month_offset) :
-                if ($month_offset == 'next') :
-                    $month_number++;
-                else:
-                    redirect('student/calendar/month');
-                endif;
-            endif;
-            
             $this->load_header_and_menu();
 
+            $month_number = date('m', time());
             $month = $this->calendar_model->get_month($month_number);
+            $month_number++;
+            $next_month = $this->calendar_model->get_month($month_number);
 
             $data['MONTH'] = $month;
+            $data['NEXT_MONTH'] = $next_month;
 
             $this->load->view('student_calendar/view_month', $data);
 
@@ -40,13 +34,34 @@
 
             $day_date = new DateTime($day_data['DayDate']);
             $day_number = $day_date->format('d');
-
+            $day_month = $day_date->format('m');
+            
             $today = new DateTime();
-
+            
             $data['DAY'] = $day_data;
             $data['ID_USER'] = $this->session->userdata('IdUser');
 
-            if ($day_data['Locked'] || $day_number <= $today->format('d'))
+            $locked = false;
+
+            if ($day_data['Locked'])
+            {
+                $locked = true;
+            }
+
+            if (!$locked && $day_month < $today->format('m'))
+            {
+                $locked = true;
+            }
+
+            if (!$locked && $day_month == $today->format('m'))
+            {
+                if ($day_number <= $today->format('d'))
+                {
+                    $locked = true;
+                }
+            }
+
+            if ($locked)
             {
                 $this->show_notification('Día bloqueado', 'error');
                 redirect('student/calendar/month');

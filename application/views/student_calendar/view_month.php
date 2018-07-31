@@ -1,17 +1,19 @@
 <div class="container">
+<div class="card">
+    <div class="card-content">
+        <h3>Calendario Estudiante</h3>
+        <?php
 
-    <div class="card">
-        <div class="card-content">
-            <?php
+        function renderMonth($month_to_render) {
             
             $months = [
                 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
             ];
-            $month_str = $months[(new DateTime($MONTH[0]['DayDate']))->format('m') - 1];
+            $month_str = $months[(new DateTime($month_to_render[0]['DayDate']))->format('m') - 1];
             
             ?>
-            <h3>Calendario Estudiante</h3>
+            
             <h4><?= $month_str ?></h4>
 
             <table class="centered calendar">
@@ -25,8 +27,8 @@
 
             <tbody>
             <?php
-                $number_days = count($MONTH);
-                $starting_day = $MONTH[0];
+                $number_days = count($month_to_render);
+                $starting_day = $month_to_render[0];
 
                 
                 // First week filler.
@@ -46,7 +48,7 @@
                 $i = 0;
 
                 while($i < $number_days) :
-                    $day = $MONTH[$i];
+                    $day = $month_to_render[$i];
                     $day_date = new DateTime($day['DayDate']);
                     $today = new DateTime();
 
@@ -110,6 +112,12 @@
             ?>
             </tbody>
             </table>
-        </div>
+        <?php } ?>
+
+        <?php
+            renderMonth($MONTH);
+            renderMonth($NEXT_MONTH);
+        ?>
     </div>
+</div>
 </div>
