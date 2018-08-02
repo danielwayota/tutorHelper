@@ -11,7 +11,7 @@ class Calendar_model extends CI_Model
      * Get the given month or the current if none is given.
      *   If the moth doesn't exists, creates a new one.
      */
-    public function get_month($month_number = 0)
+    public function get_month($month_number = 0, $id_user = 0)
     {
         $now = time();
         $day = 1;
@@ -30,8 +30,20 @@ class Calendar_model extends CI_Model
             $year++;
         }
 
-        $this->db->where('MONTH(DayDate)', $month);
-        $query = $this->db->get('Days');
+        if ($id_user)
+        {
+            $query = $this->db->query('SELECT *, 
+            CASE
+                WHEN ('.$id_user.' IN (SELECT IdUser FROM DaysUsersHours WHERE IdDay = Days.IdDay)) THEN 1
+                ELSE 0
+            END as "Registered"
+            FROM `Days` WHERE MONTH(Days.DayDate) = '.$month);
+        }
+        else
+        {
+            $this->db->where('MONTH(DayDate)', $month);
+            $query = $this->db->get('Days');
+        }
         
         if ($query->num_rows() > 0)
         {
@@ -67,8 +79,20 @@ class Calendar_model extends CI_Model
             $this->db->insert_batch('Days', $days_data);
 
             // Get the recent inserted month data.
-            $this->db->where('MONTH(DayDate)', $month);
-            $query = $this->db->get('Days');
+            if ($id_user)
+            {
+                $query = $this->db->query('SELECT *, 
+            CASE
+                WHEN ('.$id_user.' IN (SELECT IdUser FROM DaysUsersHours WHERE IdDay = Days.IdDay)) THEN 1
+                ELSE 0
+            END as "Registered"
+            FROM `Days` WHERE MONTH(Days.DayDate) = '.$month);
+            }
+            else
+            {
+                $this->db->where('MONTH(DayDate)', $month);
+                $query = $this->db->get('Days');
+            }
 
             return $query->result_array();
         }

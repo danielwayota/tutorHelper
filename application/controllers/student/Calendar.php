@@ -12,10 +12,12 @@
             $this->check_user_session();
             $this->load_header_and_menu();
 
+            $user_id = $this->session->userdata('IdUser');
+
             $month_number = date('m', time());
-            $month = $this->calendar_model->get_month($month_number);
+            $month = $this->calendar_model->get_month($month_number, $user_id);
             $month_number++;
-            $next_month = $this->calendar_model->get_month($month_number);
+            $next_month = $this->calendar_model->get_month($month_number, $user_id);
 
             $data['MONTH'] = $month;
             $data['NEXT_MONTH'] = $next_month;
@@ -70,7 +72,7 @@
             {
                 if ($this->input->post('remove-me') != NULL)
                 {
-                    $id_user = $data['IdUser'];
+                    $id_user = $data['ID_USER'];
                     $id_day = $day_data['IdDay'];
                     $id_hour = $this->input->post('id-hour');
 

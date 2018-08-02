@@ -82,12 +82,17 @@
                         endif;
                     endif;
 
+                    // Today mark
                     if (
                         ($day_number == $today->format('d'))
                         &&
                         ($day_month == $today->format('m'))
                         ):
                         $day_color .= ' blue lighten-4';
+                    endif;
+
+                    if ($add_link && $day['Registered']):
+                        $day_color .= 'green-text';
                     endif;
 
                     // Day 'button'
