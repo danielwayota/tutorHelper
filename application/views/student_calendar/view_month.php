@@ -93,6 +93,9 @@
 
                     if ($add_link && $day['Registered']):
                         $day_color .= 'green-text';
+                    elseif ($add_link && $day['Full']):
+                        $day_color = 'red-text';
+                        $add_link = FALSE;
                     endif;
 
                     // Day 'button'

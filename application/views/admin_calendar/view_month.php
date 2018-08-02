@@ -64,16 +64,26 @@
                         // - Locked: Red
                         // - Past day: green
                         // - Today: Blue BG
+
+                        $modified = FALSE;
+
                         if ($day['Locked']) :
                             $day_color = 'red-text';
+                            $modified = TRUE;
                         else:
                             if ($day_month < $today->format('m')):
                                 $day_color = 'grey-text';
+                                $modified = TRUE;
                             elseif ($day_month == $today->format('m')):
                                 if ($day_number <= $today->format('d')):
                                     $day_color = 'grey-text';
+                                    $modified = TRUE;
                                 endif;
                             endif;
+                        endif;    
+
+                        if (!$modified && $day['Full']):
+                            $day_color = 'orange-text';
                         endif;
 
                         if (
@@ -88,6 +98,10 @@
                         ?><td><?php
                             ?><a class="<?= $day_color ?>" href="<?= $day_url ?>"><?=
                                 $day_number
+                            ?><?php
+                                if ($day['People']): ?>
+                                    <sup><?= $day['People']?></sup>
+                                <?php endif;
                             ?></a><?php
                         ?></td><?php
 
@@ -109,3 +123,14 @@
         </div>
     </div>
 </div>
+
+<style>
+td {
+    position: relative;
+}
+sup {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+</style>

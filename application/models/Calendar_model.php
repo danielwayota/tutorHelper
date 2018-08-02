@@ -30,20 +30,22 @@ class Calendar_model extends CI_Model
             $year++;
         }
 
-        if ($id_user)
-        {
-            $query = $this->db->query('SELECT *, 
+        $query = $this->db->query(
+            'SELECT *, 
             CASE
-                WHEN ('.$id_user.' IN (SELECT IdUser FROM DaysUsersHours WHERE IdDay = Days.IdDay)) THEN 1
+                WHEN ('.$id_user.' IN (
+                    SELECT IdUser FROM DaysUsersHours WHERE IdDay = Days.IdDay)
+                ) THEN 1
                 ELSE 0
-            END as "Registered"
-            FROM `Days` WHERE MONTH(Days.DayDate) = '.$month);
-        }
-        else
-        {
-            $this->db->where('MONTH(DayDate)', $month);
-            $query = $this->db->get('Days');
-        }
+            END as "Registered",
+            CASE
+                WHEN (SELECT COUNT(*) FROM DaysUsersHours WHERE IdDay = Days.IdDay AND IdUser IS NOT NULL) = 0 THEN 0
+                WHEN (SELECT COUNT(*) FROM DaysUsersHours WHERE IdDay = Days.IdDay AND IdUser IS NULL) != 0 THEN 0
+                ELSE 1
+            END as "Full",
+            (SELECT COUNT(*) FROM DaysUsersHours WHERE IdDay = Days.IdDay AND IdUser IS NOT NULL) AS "People"
+            FROM `Days` WHERE MONTH(Days.DayDate) = '.$month
+        );
         
         if ($query->num_rows() > 0)
         {
@@ -79,20 +81,22 @@ class Calendar_model extends CI_Model
             $this->db->insert_batch('Days', $days_data);
 
             // Get the recent inserted month data.
-            if ($id_user)
-            {
-                $query = $this->db->query('SELECT *, 
-            CASE
-                WHEN ('.$id_user.' IN (SELECT IdUser FROM DaysUsersHours WHERE IdDay = Days.IdDay)) THEN 1
-                ELSE 0
-            END as "Registered"
-            FROM `Days` WHERE MONTH(Days.DayDate) = '.$month);
-            }
-            else
-            {
-                $this->db->where('MONTH(DayDate)', $month);
-                $query = $this->db->get('Days');
-            }
+            $query = $this->db->query(
+                'SELECT *, 
+                CASE
+                    WHEN ('.$id_user.' IN (
+                        SELECT IdUser FROM DaysUsersHours WHERE IdDay = Days.IdDay)
+                    ) THEN 1
+                    ELSE 0
+                END as "Registered",
+                CASE
+                    WHEN (SELECT COUNT(*) FROM DaysUsersHours WHERE IdDay = Days.IdDay AND IdUser IS NOT NULL) = 0 THEN 0
+                    WHEN (SELECT COUNT(*) FROM DaysUsersHours WHERE IdDay = Days.IdDay AND IdUser IS NULL) != 0 THEN 0
+                    ELSE 1
+                END as "Full",
+                (SELECT COUNT(*) FROM DaysUsersHours WHERE IdDay = Days.IdDay AND IdUser IS NOT NULL) AS "People"
+                FROM `Days` WHERE MONTH(Days.DayDate) = '.$month
+            );
 
             return $query->result_array();
         }
