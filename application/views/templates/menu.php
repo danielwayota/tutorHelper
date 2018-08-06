@@ -20,7 +20,12 @@
             'name' => 'Calendario',
             'requireSuperUser' => false,
             'url' => base_url() . 'index.php/student/calendar/month'
-        )
+        ),
+        array(
+            'name' => 'Informes',
+            'requireSuperUser' => true,
+            'url' => base_url() . 'index.php/report'
+        ),
     );
     $admin_menu_items = array();
     if ($this->session->userdata('logged_in'))

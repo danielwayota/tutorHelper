@@ -8,6 +8,16 @@ class Calendar_model extends CI_Model
     }
 
     /**
+     * Gets the full list of stored months
+     */
+    public function get_month_list()
+    {
+        $query = $this->db->query('SELECT ANY_VALUE(DayDate) AS DayDate FROM `Days` GROUP By MONTH(DayDate), YEAR(DayDate)');
+
+        return $query->result_array();
+    }
+
+    /**
      * Get the given month or the current if none is given.
      *   If the moth doesn't exists, creates a new one.
      */
