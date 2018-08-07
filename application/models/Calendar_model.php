@@ -18,6 +18,40 @@ class Calendar_model extends CI_Model
     }
 
     /**
+     * Computes the hours consumed by all the users
+     */
+    public function get_month_report($month, $year)
+    {
+        $query = $this->db->query('SELECT
+                Users.Name,
+                Users.Email,
+                Users.Enabled,
+                PriceOverride,
+                stuff.Hours
+            FROM Users
+            
+            LEFT JOIN (
+                SELECT DaysUsersHours.IdUser AS IdUser,
+                    COUNT(DaysUsersHours.IdDay) AS Hours,
+                    MONTH(ANY_VALUE(Days.DayDate)) AS Month
+                FROM DaysUsersHours
+                INNER JOIN Days
+                    ON DaysUsersHours.IdDay = Days.IdDay
+                WHERE
+                    DaysUsersHours.IdUser IS NOT NULL AND
+                    MONTH(Days.DayDate) = '.$month.' AND
+                    YEAR(Days.DayDate) = '.$year.'
+                GROUP BY DaysUsersHours.IdUser
+            ) AS stuff
+            ON Users.IdUser = stuff.IdUser
+            INNER JOIN UsersData
+	            ON UsersData.IdUser = Users.IdUser
+            WHERE Users.IsSuperAdmin != 1');
+        
+        return $query->result_array();
+    }
+
+    /**
      * Get the given month or the current if none is given.
      *   If the moth doesn't exists, creates a new one.
      */

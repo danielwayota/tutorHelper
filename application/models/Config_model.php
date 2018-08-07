@@ -10,6 +10,6 @@
         {
             $query = $this->db->get('Config');
 
-            return $query->result_array();
+            return $query->row_array();
         }
     }
