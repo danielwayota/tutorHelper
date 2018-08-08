@@ -17,6 +17,13 @@ class Calendar_model extends CI_Model
         return $query->result_array();
     }
 
+    public function delete_month_report($month, $year)
+    {
+        $this->db->where('MONTH(DayDate)', $month);
+        $this->db->where('YEAR(DayDate)', $year);
+        $this->db->delete('Days');
+    }
+
     /**
      * Computes the hours consumed by all the users
      */

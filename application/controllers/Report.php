@@ -31,4 +31,29 @@
 
             $this->load_footer();
         }
+
+        public function delete()
+        {
+            $this->check_superadmin_session();
+
+            $date = NULL;
+            if ($this->input->post('date-to-delete'))
+            {
+                $date = $this->input->post('date-to-delete');
+    
+                $date_data = explode('-', $date);
+    
+                $month = $date_data[0];
+                $year = $date_data[1];
+    
+                $stuff = $this->calendar_model->delete_month_report($month, $year);
+
+                $this->show_notification('Informe borrado');
+                redirect('report');
+            }
+            else
+            {
+                redirect('report');
+            }
+        }
     }
