@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `ConfigSchedules` (
 --
 
 INSERT INTO `ConfigSchedules` (`IdConfigSchedule`, `Name`, `IsDefault`) VALUES
-(1, 'LunAJue', 1),
-(2, 'Vie', 0);
+(1, 'Lunes a Jueves', 1),
+(2, 'Vienes', 0);
 
 -- --------------------------------------------------------
 

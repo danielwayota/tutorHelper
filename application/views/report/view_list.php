@@ -1,7 +1,7 @@
 <div class="container">
 <div class="card">
     <div class="card-content">
-        <h3>Informes</h3>
+        <h4 class="mb-2">Mis informes:</h4>
 
         <!-- Do some shit -->
         <table class="striped">
@@ -9,7 +9,7 @@
         <tr>
             <th>Mes</th>
             <th>Año</th>
-            <th>Acciones</th>
+            <th>Acciones:</th>
         </tr>
         </thead>
         <tbody>
@@ -34,14 +34,16 @@
                 <td>
                     <a class="btn green" href="<?=
                         base_url() . 'index.php/report/month/'. $view_str
-                    ?>">Ver</a>
+                    ?>">
+                        <i class="material-icons">visibility</i>
+                    </a>
 
                     <button
                         data-target="delete-modal"
                         data-date="<?= $view_str ?>"
                         class="btn red modal-trigger"
                     >
-                        Borrar
+                    <i class="material-icons">delete</i>
                     </button>
                 </td>
             </tr>
@@ -57,13 +59,13 @@
 <div id="delete-modal" class="modal">
     <div class="modal-content">
         <h4>Borrar <span id="date-to-delete-label"></span></h4>
-        <p>Este informe no se podrá recuperar.</p>
+        <p class="red-text text-darken-1"><i> Se borrará el registro definitivamente.</i></p>
     </div>
     <div class="modal-footer">
         <?php echo form_open(base_url() . 'index.php/report/delete/') ?>
             <input id="date-to-delete" name="date-to-delete" type="hidden">
-            <button type="button" class="modal-close btn green">Cancelar</button>
-            <button type="submit" class="btn red">Aceptar</button>
+            <button type="button" class="modal-close btn green"><i class="material-icons">cancel</i></button>
+            <button type="submit" class="btn red"><i class="material-icons">delete</i></button>
         </form>
     </div>
 </div>

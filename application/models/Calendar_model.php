@@ -12,7 +12,7 @@ class Calendar_model extends CI_Model
      */
     public function get_month_list()
     {
-        $query = $this->db->query('SELECT ANY_VALUE(DayDate) AS DayDate FROM `Days` GROUP By MONTH(DayDate), YEAR(DayDate)');
+        $query = $this->db->query('SELECT DayDate AS DayDate FROM `Days` GROUP By MONTH(DayDate), YEAR(DayDate)');
 
         return $query->result_array();
     }
@@ -40,7 +40,7 @@ class Calendar_model extends CI_Model
             LEFT JOIN (
                 SELECT DaysUsersHours.IdUser AS IdUser,
                     COUNT(DaysUsersHours.IdDay) AS Hours,
-                    MONTH(ANY_VALUE(Days.DayDate)) AS Month
+                    MONTH(Days.DayDate) AS Month
                 FROM DaysUsersHours
                 INNER JOIN Days
                     ON DaysUsersHours.IdDay = Days.IdDay

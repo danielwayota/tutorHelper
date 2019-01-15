@@ -48,7 +48,7 @@
                 // Reload the day data
                 $day_data = $this->calendar_model->get_day_data_by_date($day);
 
-                $this->show_notification('Día modificado.');
+                $this->show_notification('Día modificado');
             }
 
             if ($this->input->post('remove-hour'))
@@ -75,7 +75,7 @@
             $this->load_header_and_menu();
             if ($day === 0)
             {
-                $this->show_notification('No hay día especificado.', 'error');
+                $this->show_notification('No hay día especificado', 'error');
             }
             else
             {

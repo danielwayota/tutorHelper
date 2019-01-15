@@ -2,7 +2,7 @@
     // Admin menu composition
     $template = array(
         array(
-            'name' => 'Páginas',
+            'name' => 'Agregar contenido',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/pages/list'
         ),
@@ -12,17 +12,17 @@
             'url' => base_url() . 'index.php/users/list'
         ),
         array(
-            'name' => 'Calendario profesor',
+            'name' => 'Gestionar calendario',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/admin/calendar/month'
         ),
         array(
-            'name' => 'Calendario',
+            'name' => 'Calendario del alumnado',
             'requireSuperUser' => false,
             'url' => base_url() . 'index.php/student/calendar/month'
         ),
         array(
-            'name' => 'Informes',
+            'name' => 'Informe de mes',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/report'
         ),
@@ -54,7 +54,7 @@
 <nav class="nav-extended indigo darken-4">
     <div class="nav-wrapper">
         <a href="<?php echo base_url(); ?>" class="brand-logo">
-            <i class="material-icons">school</i>Tutor Helper
+        <i class="material-icons">school</i>
         </a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger">
             <i class="material-icons">menu</i>
@@ -90,7 +90,7 @@
             <?php if ($this->session->userdata('logged_in')) : ?>
                 <a class="btn indigo darken-6"
                     href="<?php echo base_url() ?>index.php/users/logout">
-                    <i class="material-icons left">person_outline</i>Salir
+                    <i class="material-icons left">person</i>Salir
                 </a>
             <?php else : ?>
                 <a class="btn indigo darken-6"
@@ -132,7 +132,6 @@
     </li>
 
     <?php endforeach; ?>
-
     <!-- ADMIN MENU -->
     <?php if (!empty($admin_menu_items)) : ?>
     <li><div class="divider"></div></li>
@@ -148,7 +147,7 @@
     <!-- Login/Logout buttons -->
     <?php if ($this->session->userdata('logged_in')) : ?>
         <a href="<?php echo base_url() ?>index.php/users/logout">
-            <i class="material-icons">person_outline</i>Salir
+            <i class="material-icons">person</i>Salir
         </a>
     <?php else : ?>
         <a href="<?php echo base_url() ?>index.php/users/login">

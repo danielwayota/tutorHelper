@@ -6,16 +6,11 @@
 
 <div class="card">
     <div class="card-content">
-        <h3>Editar Ususario</h3>
+        <h4 class="mb-2">Editar usuario:</h4>
 
         <?php echo form_open($url_base . '/edit' . '/' . $user['IdUser']) ?>
         <div class="row">
-            <div class="input-field col s12 m6">
-                <input type="text" id="email" disabled value="<?= $user['Email'] ?>"  />
-                <label for="email">Email</label>
-            </div>
-
-            <div class="input-field col s12 m6">
+            <div class="input-field col s12">
                 <div class="switch">
                     <label>
                     Desactivado<input type="checkbox" name="enabled" <?php
@@ -25,6 +20,11 @@
                     Activado
                     </label>
                 </div>
+            </div>
+
+            <div class="input-field col s12 mt-3">
+                <input type="text" id="email" disabled value="<?= $user['Email'] ?>"  />
+                <label for="email">Email</label>
             </div>
 
             <div class="input-field col s12">
@@ -53,7 +53,7 @@
 
             <div class="input-field col s12 m6">
                 <input type="password" name="password2" id="password2" />
-                <label for="password2">Repetir Contraseña</label>
+                <label for="password2">Repetir contraseña</label>
                 <?php
                     $validation_error = form_error('password2');
                     if ($validation_error) : ?>
@@ -68,8 +68,8 @@
                 <label for="comments">Comentarios</label>
             </div>
 
-            <div class="input-field col s12">
-                <strong>Tiene Precio Personalizado?</strong>
+            <div class="input-field col s12 mt-3">
+                <strong>¿Precio personalizado?</strong>
             </div>
 
             <div class="input-field col s12 m4 l2">
@@ -86,11 +86,11 @@
 
             <div class="input-field col s12 m8 l10">
                 <input type="number" step=".01" value="<?= $user['PriceOverride'] ?>" name="custom-price" id="custom-price" />
-                <label for="custom-price">Precio Personalizado</label>
+                <label for="custom-price">Precio personalizado</label>
             </div>
 
-            <div class="input-field col s12">
-                <button class="btn green" type="submit">Guardar</button>
+            <div class="input-field col s12 mt-3">
+                <button class="btn green" type="submit"><i class="material-icons">check</i></button>
             </div>
         </div>
         </form>

@@ -47,7 +47,7 @@
                         );
                         
                         $this->session->set_userdata($session);
-                        $this->show_notification('Sessión iniciada.');
+                        $this->show_notification('Sesión iniciada');
                         redirect('');
                     }
                     else
@@ -57,7 +57,7 @@
                 }
                 else
                 {
-                    $this->load_login_with_error('Credenciales inválidos.');
+                    $this->load_login_with_error('Credenciales no válidos');
                 }
             }
         }
@@ -81,7 +81,7 @@
         {
             $this->clear_user_data();
 
-            $this->show_notification('Sessión cerrada.');
+            $this->show_notification('Sesión cerrada');
             redirect('users/login');
         }
 
@@ -234,7 +234,7 @@
                 $this->user_model->update_regular_user($id, $user_data, $extra_data);
 
                 
-                $this->show_notification('Usuario guardado.');
+                $this->show_notification('Usuario guardado');
                 $data['user'] = $this->user_model->get_user_with_data($id);
             }
 
@@ -253,7 +253,7 @@
             $status = $this->user_model->delete_user($id);
             if ($status)
             {
-                $this->show_notification('Usuario borrado.');
+                $this->show_notification('Usuario borrado');
             }
             else
             {

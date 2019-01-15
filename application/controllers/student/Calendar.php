@@ -77,7 +77,7 @@
                     $id_hour = $this->input->post('id-hour');
 
                     $this->calendar_model->remove_user_from_schedule($id_day, $id_user);
-                    $this->show_notification('Borrado.');
+                    $this->show_notification('Reserva eliminada');
                 }
 
                 if ($this->input->post('id-hour') != NULL)
@@ -88,11 +88,11 @@
 
                     if ($this->calendar_model->add_user_to_schedule($id_day, $id_user, $id_hour))
                     {
-                        $this->show_notification('Registrado.');
+                        $this->show_notification('Hora reservada');
                     }
                     else
                     {
-                        $this->show_notification('La Hora está ya reservada.', 'error');
+                        $this->show_notification('La hora ya se encuentra reservada', 'error');
                     }
 
                 }

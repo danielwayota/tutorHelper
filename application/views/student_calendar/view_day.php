@@ -7,13 +7,9 @@
 ?>
 <div class="card">
     <div class="card-content">
-        <h3>Día <?= $day_date->format('d-m-Y') ?></h3>
+        <h4>Fecha: <?= $day_date->format('d-m-Y') ?></h4>
 
-        <h4>Horas disponibles</h4>
-
-        <div class="mt-1">Click en una hora para anotarte o cambiar de hora.</div>
-
-        <div class="mb-1">La hora en <span class="green-text">verde</span> es en la que estás anotado.</div>
+        <h6 class="mt-3 mb-2">Escoger hora:</h6>
 
         <div>
             <?php
@@ -36,15 +32,15 @@
                         }
                     }
 
-                    ?><div class="col s1">
-                    <button class="<?= $style ?>" type="submit" name="id-hour" value="<?=$hour['IdHour']?>"><?=
+                    ?><div class="col">
+                    <button class="mb-2 <?= $style ?>" type="submit" name="id-hour" value="<?=$hour['IdHour']?>"><?=
                         $hour['HourString']
                     ?></button></div><?php
 
                 endforeach; ?></div><?php
 
                 if ($is_user_in_this_day): ?>
-                    <button class="btn red" type="submit" name="remove-me" value="me">Bórrame</button>
+                <button class="mt-3 btn red" type="submit" name="remove-me" value="me"><i class="material-icons">delete</i></button>
                 <?php endif; ?>
             </form>
         </div>

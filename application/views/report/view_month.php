@@ -13,12 +13,12 @@
             $month_name = $months[$month - 1];
         ?>
 
-        <h4>Informe de <?= $month_name ?> - <?= $year ?></h4>
+        <h5 class="mb-2">Informe de <?= $month_name ?> - <?= $year ?></h5>
 
-        <table class="responsive-table">
+        <table>
         <thead>
             <tr>
-                <th>Alumno</th>
+                <th>Usuario</th>
                 <th>Horas</th>
                 <th>Precio</th>
                 <th>Total</th>
@@ -36,7 +36,7 @@
 
             ?>
             <tr>
-                <td><?= $report['Name'] ?></td>
+                <td class="truncate"><?= $report['Name'] ?></td>
                 <td><?= $hours ?></td>
                 <td class="<?= $custom_price ? 'yellow lighten-4' : '' ?>">
                     <?= number_format($price, 2); ?>€

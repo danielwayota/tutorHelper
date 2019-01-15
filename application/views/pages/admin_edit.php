@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-content">
     <?php echo form_open($url_base.'/edit' . '/' . $PAGE['IdPage']) ?>
-        <h3>Editar página</h3>
+        <h4 class="mb-3">Editar contenido:</h4>
         
         <div class="input-field">
             <input type="text" id="title" name="title" value="<?= $PAGE['Title'] ?>" required />
@@ -21,8 +21,8 @@
             <textarea  id="content" name="content"><?= $PAGE['Content'] ?></textarea>
         </div>
 
-        <div class="input-field">
-            <button class="btn green" type="submit">Guardar</button>
+        <div class="input-field mt-3">
+            <button class="btn green" type="submit"><i class="material-icons">check</i></button>
         </div>
     </form>
     </div>
@@ -34,6 +34,6 @@
 tinymce.init({
     selector: '#content',
     min_height: 300,
-    plugins: "code"
+    plugins: ["code", "link"]
 });
 </script>

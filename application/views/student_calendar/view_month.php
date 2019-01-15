@@ -1,7 +1,7 @@
 <div class="container">
 <div class="card">
     <div class="card-content">
-        <h3>Calendario Estudiante</h3>
+        <h4 class="mb-3">Selección de día:</h4>
         <?php
 
         function renderMonth($month_to_render) {
@@ -13,8 +13,8 @@
             $month_str = $months[(new DateTime($month_to_render[0]['DayDate']))->format('m') - 1];
             
             ?>
-            
-            <h4><?= $month_str ?></h4>
+            <div class="mb-3">
+            <h5><?= $month_str ?></h5>
 
             <table class="centered calendar">
 
@@ -120,6 +120,7 @@
             ?>
             </tbody>
             </table>
+            </div>
         <?php } ?>
 
         <?php

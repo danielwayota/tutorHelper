@@ -122,7 +122,7 @@
 
                 $this->page_model->update_page($id, $page_data);
 
-                $this->show_notification('Cambios aplicados.');
+                $this->show_notification('Cambios aplicados');
             }
 
             // Load the page data.
@@ -130,7 +130,7 @@
 
             if (empty($page))
             {
-                $this->show_notification('Página no encontrada.', 'error');
+                $this->show_notification('Página no encontrada', 'error');
                 redirect('pages/list');
             }
 
@@ -151,7 +151,7 @@
             $status = $this->page_model->delete_page($id);
             if ($status)
             {
-                $this->show_notification('Página borrada.');
+                $this->show_notification('Página borrada');
             }
             else
             {
