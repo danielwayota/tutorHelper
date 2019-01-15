@@ -250,7 +250,7 @@
         {
             $this->check_superadmin_session();
 
-            $status = $this->user_model->delete_user($id);
+            $status = $this->user_model->delete_regular_user($id);
             if ($status)
             {
                 $this->show_notification('Usuario borrado');
