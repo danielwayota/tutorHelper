@@ -15,7 +15,7 @@
 
         <h4>Informe de <?= $month_name ?> - <?= $year ?></h4>
 
-        <table>
+        <table class="responsive-table">
         <thead>
             <tr>
                 <th>Alumno</th>

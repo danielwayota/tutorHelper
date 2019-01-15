@@ -14,7 +14,7 @@
         <div class="row">
             <h4>Lista de alumnos del día</h4>
 
-            <table>
+            <table class="responsive-table">
             <thead>
                 <tr>
                     <th>Hora</th>

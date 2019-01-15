@@ -14,7 +14,7 @@
 
         <h5>Lista de usuarios</h5>
 
-        <table>
+        <table class="responsive-table">
             <thead>
                 <tr>
                     <th>Email</th><th>Nombre</th><th>Estado</th><th>Acciones</th>
