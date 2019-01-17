@@ -180,6 +180,7 @@
             // Validation stuff
             $this->form_validation->set_rules('name', 'Name', 'required');
 
+            // Validate password only if they are not empty
             if (
                 $this->input->post('password') !== '' ||
                 $this->input->post('password2') !== ''

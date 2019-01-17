@@ -88,12 +88,21 @@
         }
 
         /**
-         * Updates a regular user and it's data
+         * Updates the basic info for a given user.
          */
-        public function update_regular_user($id, $user, $extra)
+        public function update_user($id, $user_data)
         {
             $this->db->where('IdUser', $id);
-            $this->db->update('Users', $user);
+            $this->db->update('Users', $user_data);
+        }
+
+        /**
+         * Updates a regular user and it's data
+         */
+        public function update_regular_user($id, $user_data, $extra)
+        {
+            $this->db->where('IdUser', $id);
+            $this->db->update('Users', $user_data);
 
             $this->db->where('IdUser', $id);
             $this->db->update('UsersData', $extra);

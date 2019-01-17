@@ -2,6 +2,11 @@
     // Admin menu composition
     $template = array(
         array(
+            'name' => 'Perfil',
+            'requireSuperUser' => false,
+            'url' => base_url() . 'index.php/profile'
+        ),
+        array(
             'name' => 'Agregar contenido',
             'requireSuperUser' => true,
             'url' => base_url() . 'index.php/pages/list'
