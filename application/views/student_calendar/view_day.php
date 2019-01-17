@@ -1,6 +1,6 @@
 <div class="container">
 <?php
-    $url_base = base_url() . 'index.php/student/calendar/day/';
+    $url_base = base_url() . 'index.php/student/calendar';
 
     $day_date = new DateTime($DAY['DayDate']);
     $day_str = $day_date->format('Y-m-d');
@@ -13,7 +13,7 @@
 
         <div>
             <?php
-                echo form_open($url_base . $day_str);
+                echo form_open($url_base . '/day' . '/' . $day_str);
 
                 $is_user_in_this_day = FALSE;
 
@@ -37,11 +37,18 @@
                         $hour['HourString']
                     ?></button></div><?php
 
-                endforeach; ?></div><?php
+                endforeach; ?></div>
 
-                if ($is_user_in_this_day): ?>
-                <button class="mt-3 btn red" type="submit" name="remove-me" value="me"><i class="material-icons">delete</i></button>
-                <?php endif; ?>
+                <div class="mt-3">
+                    <a class="btn grey" href="<?php echo $url_base . '/month' ?>">
+                        <i class="material-icons">keyboard_backspace</i>
+                    </a>
+                    <button class="btn red"
+                        <?php if (!$is_user_in_this_day): ?> disabled <?php endif; ?>
+                        type="submit" name="remove-me" value="me">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </div>
             </form>
         </div>
     </div>

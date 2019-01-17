@@ -90,6 +90,7 @@
             </div>
 
             <div class="input-field col s12 mt-3">
+                <a class="btn grey" href="<?php echo $url_base . '/list' ?>"><i class="material-icons">keyboard_backspace</i></a>
                 <button class="btn green" type="submit"><i class="material-icons">check</i></button>
             </div>
         </div>

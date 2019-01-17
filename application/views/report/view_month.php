@@ -53,5 +53,10 @@
         <?php endforeach; ?>
         </tbody>
         </table>
+        <div class="input-field col s12 mt-3">
+            <a class="btn grey" href="<?php echo base_url() . 'index.php/report' ?>">
+                <i class="material-icons">keyboard_backspace</i>
+            </a>
+        </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="container">
 <?php
-    $url_base = base_url() . 'index.php/admin/calendar/day/';
+    $url_base = base_url() . 'index.php/admin/calendar';
 
     $day_date = new DateTime($DAY['DayDate']);
     $day_str = $day_date->format('Y-m-d');
@@ -10,7 +10,7 @@
         <h4 class="mb-2">Fecha: <?= $day_date->format('d-m-Y') ?></h4>
 
 
-        <?php echo form_open($url_base . $day_str) ?>
+        <?php echo form_open($url_base . '/day' . '/' . $day_str) ?>
         <div class="row">
             <h5 class="mb-2">Usuarios inscritos:</h5>
 
@@ -86,7 +86,12 @@
             </div>
 
             <div class="input-field col s12 mt-3">
-                <button class="btn green" type="submit" name="edit-day" value="true"><i class="material-icons">check</i></button>
+                <a class="btn grey" href="<?php echo $url_base . '/month' ?>">
+                    <i class="material-icons">keyboard_backspace</i>
+                </a>
+                <button class="btn green" type="submit" name="edit-day" value="true">
+                    <i class="material-icons">check</i>
+                </button>
             </div>
         </div>
         </form>
