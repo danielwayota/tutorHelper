@@ -1,3 +1,7 @@
+<?php
+    $url_base = base_url() . 'index.php/report';
+?>
+
 <div class="container">
 <div class="card">
     <div class="card-content">
@@ -22,6 +26,7 @@
                 <th>Horas</th>
                 <th>Precio</th>
                 <th>Total</th>
+                <th>Pagado</th>
             </tr>
         </thead>
         <tbody>
@@ -49,12 +54,25 @@
                     }
                 ?>
                 <td><?= number_format($precio_total, 2)?>€</td>
+                <td>
+                <?php echo form_open($url_base . '/payment' . '/' . $month . '-' . $year)  ?>
+                    <?php if ($report['Paid']) : ?>
+                        <button class="btn green" type="submit" name="id-user" value="<?= $report['IdUser'] ?>">
+                            <i class="material-icons">attach_money</i>
+                        </button>
+                    <?php else : ?>
+                        <button class="btn orange" type="submit" name="id-user" value="<?= $report['IdUser'] ?>">
+                            <i class="material-icons">money_off</i>
+                        </button>
+                    <?php endif; ?>
+                </form>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
         </table>
         <div class="input-field col s12 mt-3">
-            <a class="btn grey" href="<?php echo base_url() . 'index.php/report' ?>">
+            <a class="btn grey" href="<?php echo $url_base ?>">
                 <i class="material-icons">keyboard_backspace</i>
             </a>
         </div>

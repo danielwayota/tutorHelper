@@ -32,6 +32,24 @@
             $this->load_footer();
         }
 
+        public function payment($date)
+        {
+            $this->check_superadmin_session();
+
+            $id_user = $this->input->post('id-user');
+            $date_data = explode('-', $date);
+    
+            $month = $date_data[0];
+            $year = $date_data[1];
+
+            $result = $this->calendar_model->toggle_payment_meta($month, $year, $id_user);
+            
+            if ($result)
+            {
+                redirect('report/month/' . $date);
+            }
+        }
+
         public function delete()
         {
             $this->check_superadmin_session();

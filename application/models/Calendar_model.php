@@ -22,6 +22,47 @@ class Calendar_model extends CI_Model
         $this->db->where('MONTH(DayDate)', $month);
         $this->db->where('YEAR(DayDate)', $year);
         $this->db->delete('Days');
+
+        $this->db->where('Month', $month);
+        $this->db->where('Year', $year);
+        $this->db->delete('ReportMeta');
+    }
+
+    public function get_report_meta($month, $year)
+    {
+        $this->db->where('Month', $month);
+        $this->db->where('Year', $year);
+
+        $query = $this->db->get('ReportMeta');
+
+        return $query->result_array();
+    }
+
+    public function get_report_meta_by_user($month, $year, $id_user)
+    {
+        $this->db->where('Month', $month);
+        $this->db->where('Year', $year);
+        $this->db->where('IdUser', $id_user);
+
+        $query = $this->db->get('ReportMeta');
+
+        return $query->result_array();
+    }
+
+    public function toggle_payment_meta($month, $year, $id_user)
+    {
+        $this->db->where('Month', $month);
+        $this->db->where('Year', $year);
+        $this->db->where('IdUser', $id_user);
+        $this->db->select('Paid');
+
+        $paid = !($this->db->get('ReportMeta')->row_array()['Paid']);
+
+        $this->db->where('Month', $month);
+        $this->db->where('Year', $year);
+        $this->db->where('IdUser', $id_user);
+        $this->db->set('Paid', $paid);
+        return $this->db->update('ReportMeta');
     }
 
     /**
@@ -29,12 +70,40 @@ class Calendar_model extends CI_Model
      */
     public function get_month_report($month, $year)
     {
+        // Generate meta data for all users on this month
+        $this->db->where('IsSuperAdmin', 0);
+        $this->db->select('IdUser, Name');
+        $users = $this->db->get('Users')->result_array();
+
+        $report_meta = array();
+
+        // Check if there is some user with no report metadata
+        foreach ($users as $user)
+        {
+            if (empty($this->get_report_meta_by_user($month, $year, $user['IdUser'])))
+            {
+                array_push($report_meta , array(
+                    'IdUser' => $user['IdUser'],
+                    'Month' => $month,
+                    'Year' => $year,
+                    'Paid' => 0
+                ));
+            }
+        }
+        if (!empty($report_meta))
+        {
+            $this->db->insert_batch('ReportMeta', $report_meta);
+        }
+
+        // Get the report data
         $query = $this->db->query('SELECT
+                Users.IdUser,
                 Users.Name,
                 Users.Email,
                 Users.Enabled,
                 PriceOverride,
-                stuff.Hours
+                stuff.Hours,
+                ReportMeta.Paid
             FROM Users
             
             LEFT JOIN (
@@ -52,8 +121,10 @@ class Calendar_model extends CI_Model
             ) AS stuff
             ON Users.IdUser = stuff.IdUser
             INNER JOIN UsersData
-	            ON UsersData.IdUser = Users.IdUser
-            WHERE Users.IsSuperAdmin != 1');
+                ON UsersData.IdUser = Users.IdUser
+            LEFT JOIN ReportMeta
+	            ON ReportMeta.IdUser = Users.IdUser
+            WHERE Users.IsSuperAdmin != 1 AND ReportMeta.Month = ' . $month . ' AND ReportMeta.Year = ' . $year);
         
         return $query->result_array();
     }
