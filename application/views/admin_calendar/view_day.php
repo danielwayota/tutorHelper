@@ -10,7 +10,6 @@
         <h4 class="mb-2">Fecha: <?= $day_date->format('d-m-Y') ?></h4>
 
 
-        <?php echo form_open($url_base . '/day' . '/' . $day_str) ?>
         <div class="row">
             <h5 class="mb-2">Usuarios inscritos:</h5>
 
@@ -32,21 +31,18 @@
                 </td>
                 <td>
                     <button
-                        type="submit"
-                        name="remove-student"
-                        value="<?= $hour['IdUser'] ?>"
-                        class="btn orange"><i class="material-icons">person_add_disabled</i></button>
+                        data-target="modal-remove-user-<?= $hour['IdUser'] ?>"
+                        class="btn orange modal-trigger"><i class="material-icons">person_add_disabled</i></button>
                     <button
-                        type="submit"
-                        name="remove-hour"
-                        value="<?= $hour['IdHour'] ?>"
-                        class="btn red"><i class="material-icons">delete</i></button>
+                        data-target="modal-remove-hour-<?= $hour['IdHour'] ?>"
+                        class="btn red modal-trigger"><i class="material-icons">delete</i></button>
                 </td>
             </tr>
             <?php endforeach; ?>
             </table>
         </div>
 
+        <?php echo form_open($url_base . '/day' . '/' . $day_str) ?>
         <div class="row">
             <h5 class="mt-3">Cambiar horario:</h5>
             <p class="red-text text-darken-1"><i>Esta acción borrará a todos los usuarios ya registrados para poder crear el nuevo horario.</i></p>
@@ -97,13 +93,69 @@
         </form>
 
     </div>
-</div>
+
 
 </div>
+    <!-- Remove user from hour Modals Setup -->
+    <?php foreach ($SCHEDULE as $hour) : ?>
+
+    <?php if ($hour['IdUser']) : ?>
+
+    <div id="modal-remove-user-<?= $hour['IdUser'] ?>" class="modal">
+        <div class="modal-content">
+            <h5 class="mb-1">Quitar usuario de hora: </h5>
+            <p>¿ Procede a quitar al usuario <strong><?= $hour['Name'] ?></strong> de la hora seleccionada ?</p>
+        </div>
+        <div class="modal-footer">
+            <?php echo form_open($url_base . '/day' . '/' . $day_str) ?>
+                <button type="reset" class="modal-close btn green"><i class="material-icons">cancel</i></button>
+                <button
+                    type="submit"
+                    class="modal-close btn red"
+                    name="remove-student"
+                    value="<?= $hour['IdUser'] ?>">
+                    <i class="material-icons">person_add_disabled</i></button>
+            </form>
+        </div>
+    </div>
+
+    <?php endif; ?>
+
+    <?php endforeach; ?>
+
+    <!-- Remove hour Modals Setup -->
+    <?php foreach ($SCHEDULE as $hour) : ?>
+
+    <div id="modal-remove-hour-<?= $hour['IdHour'] ?>" class="modal">
+        <div class="modal-content">
+            <h5 class="mb-1">Quitar hora: </h5>
+            <p>¿ Procede a quitar la hora <strong><?= $hour['HourString'] ?></strong> ?</p>
+            <p>El horario puede restablecerse en el desplegable: <strong>Cambiar horario</strong></p>
+        </div>
+        <div class="modal-footer">
+            <?php echo form_open($url_base . '/day' . '/' . $day_str) ?>
+                <button type="reset" class="modal-close btn green"><i class="material-icons">cancel</i></button>
+                <button
+                    type="submit"
+                    class="modal-close btn red"
+                    name="remove-hour"
+                    value="<?= $hour['IdHour'] ?>">
+                    <i class="material-icons">delete</i></button>
+            </form>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
+
+</div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});
+
+    var modals = document.querySelectorAll('.modal');
+    var modalsInstances = M.Modal.init(modals, {});
 });
 </script>

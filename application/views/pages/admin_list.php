@@ -46,7 +46,7 @@
 
     <div id="modal<?= $PAGE['IdPage'] ?>" class="modal">
         <div class="modal-content">
-            <h3 class="mb-1">Eliminar: <?= $PAGE['Title'] ?></h3>
+            <h5 class="mb-1">Eliminar: <?= $PAGE['Title'] ?></h5>
             <p>¿ Procede a eliminar el contenido <span class="red-text text-darken-1">definitivamente</span> ?</p>
         </div>
         <div class="modal-footer">
