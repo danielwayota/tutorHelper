@@ -13,7 +13,9 @@
 
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/custom.css">
 
-    <title>Tutor helper</title>
+    <link rel="icon" href="<?= base_url() ?>assets/img/favicon.png" type="image/png">
+
+    <title>Platform</title>
 </head>
 <body class="indigo lighten-5">
     

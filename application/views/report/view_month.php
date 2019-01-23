@@ -40,7 +40,7 @@
             }
 
             ?>
-            <tr>
+            <tr <?php if ($report['Paid']) : ?> class="green lighten-3" <?php endif; ?>>
                 <td class="truncate"><?= $report['Name'] ?></td>
                 <td><?= $hours ?></td>
                 <td class="<?= $custom_price ? 'yellow lighten-4' : '' ?>">
@@ -56,15 +56,16 @@
                 <td><?= number_format($precio_total, 2)?>€</td>
                 <td>
                 <?php echo form_open($url_base . '/payment' . '/' . $month . '-' . $year)  ?>
-                    <?php if ($report['Paid']) : ?>
-                        <button class="btn green" type="submit" name="id-user" value="<?= $report['IdUser'] ?>">
-                            <i class="material-icons">attach_money</i>
+                    
+                        <button
+                        <?php if ($report['Paid']) : ?>
+                            class="btn green"
+                        <?php else : ?>
+                            class="btn orange"
+                        <?php endif; ?>
+                        type="submit" name="id-user" value="<?= $report['IdUser'] ?>">
+                            <i class="material-icons">euro_symbol</i>
                         </button>
-                    <?php else : ?>
-                        <button class="btn orange" type="submit" name="id-user" value="<?= $report['IdUser'] ?>">
-                            <i class="material-icons">money_off</i>
-                        </button>
-                    <?php endif; ?>
                 </form>
                 </td>
             </tr>

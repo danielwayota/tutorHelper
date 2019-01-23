@@ -156,6 +156,18 @@ CREATE TABLE IF NOT EXISTS `Pages` (
   PRIMARY KEY (`IdPage`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Estructura de tabla para la tabla `ReportMeta`
+--
+
+DROP TABLE IF EXISTS `ReportMeta`;
+CREATE TABLE `ReportMeta` (
+  `IdUser` int(11) NOT NULL,
+  `Month` tinyint(4) NOT NULL,
+  `Year` int(11) NOT NULL,
+  `Paid` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -178,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
 --
 
 INSERT INTO `Users` (`IdUser`, `Name`, `Email`, `Password`, `Enabled`, `IsSuperAdmin`) VALUES
-(1, 'Admin', 'admin@admin.es', 'dc647eb65e6711e155375218212b3964', 1, 1);
+(1, 'Administrador', 'administrador@plataforma.es', 'd1f3133d40bfaa9f036e5621453d823a', 1, 1);
 
 -- --------------------------------------------------------
 
