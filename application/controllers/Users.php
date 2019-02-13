@@ -26,7 +26,7 @@
             else
             {
                 $user_credentials = array(
-                    'email' => $this->input->post('email'),
+                    'email' => trim($this->input->post('email')),
                     'password' => md5($this->input->post('password'))
                 );
                 
@@ -131,7 +131,7 @@
             // Load sended data if there is any.
             $user_data = array(
                 'Name' => $this->input->post('name'),
-                'Email' => $this->input->post('email'),
+                'Email' => trim($this->input->post('email')),
                 'Comments' => $this->input->post('comments')
             );
 
@@ -148,7 +148,7 @@
             {
                 $user_data = array(
                     'Name' => $this->input->post('name'),
-                    'Email' => $this->input->post('email'),
+                    'Email' => trim($this->input->post('email')),
                     'Password' => md5($this->input->post('password'))
                 );
 

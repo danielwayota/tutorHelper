@@ -38,9 +38,11 @@
 
             // Setup validation
             $this->form_validation->set_rules('name', 'Name', 'required');
+
+            $email = trim($this->input->post('email'));
             
             // Validate email if it's diferent.
-            if ($this->input->post('email') !== $pre_user_data['Email'])
+            if ($email !== $pre_user_data['Email'])
             {
                 $this->form_validation->set_rules(
                     'email',
@@ -71,7 +73,7 @@
                 // User base data
                 $user_data = array(
                     'Name' => $this->input->post('name'),
-                    'Email' => $this->input->post('email')
+                    'Email' => $email
                 );
 
                 $session = array(
@@ -98,7 +100,7 @@
                 // In case of failed validation, keep the input data.
                 $user_data = array(
                     'Name' => $this->input->post('name') ? $this->input->post('name') : $pre_user_data['Name'],
-                    'Email' => $this->input->post('email') ? $this->input->post('email') : $pre_user_data['Email']
+                    'Email' => $email ? $email : $pre_user_data['Email']
                 );
             }
 
